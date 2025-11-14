@@ -1,0 +1,91 @@
+---
+title: "Supported Hardware and Requirements"
+description: "Check essential hardware and system requirements for running DietPi, including supported single-board computers, CPUs, RAM, and available disk space. Get guidance to ensure your device and peripherals are compatible before proceeding."
+---
+
+## Supported Hardware and Requirements
+
+Before installing DietPi, it's essential to ensure your device meets the hardware and system requirements to run DietPi optimally. DietPi is designed as a lightweight Debian-based OS tailored for maximum performance on single-board computers (SBCs) and minimal-resource setups. Understanding the compatible hardware and system prerequisites will help you avoid issues and leverage DietPi's full potential.
+
+### Compatible Single-Board Computers and Architectures
+
+DietPi supports a wide range of SBCs, including popular Raspberry Pi models, Odroid devices, NanoPi, Orange Pi, ROCK Pi, and others. The operating system recognizes hardware models through a dedicated identification script that runs during the preboot stage, ensuring tailored configuration for each device. Supported architectures include armv6, armv7, aarch64 (64-bit ARM), x86_64, and riscv64.
+
+This broad hardware compatibility ensures that DietPi can optimize settings such as CPU governance, GPU memory allocation, and device-specific drivers to achieve efficient operation.
+
+### Essential Hardware Specifications
+
+To guarantee smooth performance, your hardware should meet the minimal resource thresholds familiar to most SBC deployments:
+
+- **CPU**: Multicore ARM or x86_64 processors recognized by DietPi's hardware recognition system
+- **RAM**: Minimum 256 MiB is recommended, though 512 MiB and above provide better usability
+- **Storage Space**: Sufficient disk space for the OS and software installations; note that DietPi manages swapfile sizes based on available memory
+- **Boot Partition**: Certain features, such as Raspberry Pi kernel and firmware migration, require a boot partition size of at least 128 MiB
+
+For Raspberry Pi models specifically, DietPi configures CPU governors and performance profiles appropriate for each model, leveraging knowledge of hardware revisions and manufacturer details to apply optimized settings.
+
+### Network and Peripherals Compatibility
+
+DietPi supports both Ethernet and WiFi adapters, with adaptable prioritization (WiFi takes precedence if both are enabled) and configuration options for static or dynamic IP addressing. For Raspberry Pi and similar devices, onboard WiFi and Bluetooth modules are detected and configured automatically.
+
+Peripheral support includes audio devices (sound cards, DACs), display panels, and input hardware, all configurable through DietPi’s interactive menus and scripts.
+
+### Software and System Requirements
+
+While DietPi itself is lightweight and requires minimal dependencies, some features and software packages require particular system resources or support. For example, certain GPU drivers are available only on specific hardware or architectures (e.g., Intel, Nvidia, AMD GPU support on x86_64 PCs).
+
+System components such as the bootloader (U-Boot for ARM devices), kernel versions, and firmware are critical to proper hardware operation and may need to be migrated or updated, especially when moving between Debian releases or kernel versions.
+
+### Planning Your Installation
+
+Before proceeding with DietPi installation, verify that your device and peripherals fall within the supported hardware list. Start with checking your device model as identified by DietPi's hardware detection script, which creates a hardware model file used throughout the OS.
+
+Additionally, consider the following:
+
+- Confirm that your device has an adequately sized boot partition (minimum 128 MiB for RPi firmware migrations).
+- Review network adapter compatibility and whether you require WiFi, Ethernet, or both.
+- Determine your system’s memory size and adjust the swapfile location and size accordingly, which can be preconfigured before first boot.
+- Prepare additional storage or peripherals if you plan to mount network drives or install specialized software.
+
+By aligning with these requirements, you ensure a seamless first boot experience and smooth interaction with configuration tools such as dietpi-config and dietpi-software.
+
+<Tip>
+For Raspberry Pi systems, DietPi includes tools to migrate to the latest kernel and firmware stack, requiring at least 128 MiB boot partition and a recent Debian release (Bookworm or newer).
+</Tip>
+
+For detailed hardware model recognition scripts and supported devices, see the hardware info script located at `/boot/dietpi/func/dietpi-obtain_hw_model`.<Source url="https://github.com/MichaIng/DietPi" paths={[{"path": "boot/dietpi/func/dietpi-obtain_hw_model", "range": "1-222"}]} />
+
+Ensure the `dietpi.txt` configuration file includes appropriate pre-boot setup values such as locale, keyboard layout, network settings, swapfile parameters, and hostname.<Source url="https://github.com/MichaIng/DietPi" paths={[{"path": "boot/dietpi.txt", "range": "1-382"}]} />
+
+---
+
+## Preparing Your Device Environment
+
+DietPi runs on a variety of hardware platforms with different initialization requirements. Before installation, make sure your device firmware, bootloader, and kernel meet or exceed the software requirements. For example, Raspberry Pi devices should use the latest firmware and kernel that DietPi supports, which can be ensured using DietPi’s firmware migration and kernel choice utilities.
+
+Moreover, network connectivity is crucial during installation for software package downloads. DietPi automatically detects and manages network interfaces, but having stable Ethernet or WiFi access is recommended for the best first-run experience.
+
+If you plan on running headless (without attached display), certain settings like disabling HDMI output can reduce power consumption and memory footprint.
+
+Verify your peripherals and hardware accessories like sound cards or displays are supported and compatible, as DietPi provides configuration menus tailored to many devices.
+
+---
+
+## Summary
+
+Your device must be identified and supported by DietPi’s hardware detection system, with a compatible CPU architecture and sufficient RAM. Properly sized partitions, especially the boot partition for certain devices, and stable network connections pave the way for a smooth DietPi installation.
+
+Planning and adjusting the `dietpi.txt` file allows you to automate many initial setup tasks, ensuring user credentials, locale, and network options are ready at first boot.
+
+By meeting these requirements, you empower DietPi to deliver its optimized, lightweight, and automated experience on your single-board computer.
+
+---
+
+## Where to Go Next
+
+Once your hardware and environment are verified:
+- Proceed with [Downloading and Preparing DietPi Image](/getting_started/installation_setup/downloading_image).
+- Follow up with [Flashing the Image to Your Device](/getting_started/installation_setup/installing_flashing_device).
+- After booting, explore system setup in [First Boot and Basic Configuration](/getting_started/installation_setup/first_boot_initial_config).
+
+For deeper understanding of hardware support and system internals, see [System Architecture Overview](/overview/dietpi-architecture/system-architecture) and [Core Concepts and Terminology](/overview/dietpi-architecture/core-concepts-terminology).
