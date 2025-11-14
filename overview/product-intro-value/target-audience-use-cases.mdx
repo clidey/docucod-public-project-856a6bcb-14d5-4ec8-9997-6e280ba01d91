@@ -1,0 +1,55 @@
+---
+title: "Who It's For & Key Use Cases"
+description: "Defines the primary DietPi audience—makers, home server operators, minimalists, and those deploying on SBCs or virtual appliances. Details top use cases, from media centers and automation hubs to specialized appliances and quick-provisioned servers."
+---
+
+## Who It's For and Key Use Cases
+
+DietPi is meticulously crafted to empower a diverse range of users seeking a minimal, highly efficient Debian-based system with streamlined software management. Whether you're a maker building custom hardware projects, a home server enthusiast managing multimedia and automation tasks, a minimalist aiming for a lean, resource-light operating system, or a developer deploying virtual appliances or single-board computers (SBCs), DietPi caters precisely to these needs. Its lightweight design ensures top-notch performance even on constrained devices, making it ideal where efficiency matters.
+
+Users benefit from DietPi's extensive ready-to-run, optimized software catalog, enabling swift deployment of various specialized setups without fuss. By focusing on automation, minimal overhead, and ease of use, DietPi significantly reduces manual configuration and system bloat, allowing users to concentrate on their projects and services rather than system maintenance.
+
+### Defining the Audience
+DietPi primarily targets four broad groups:
+
+- **Makers and Hobbyists:** Individuals creating custom hardware or IoT projects who require a flexible, low-footprint OS that runs efficiently on SBCs such as Raspberry Pi, Odroid, or Orange Pi.
+
+- **Home Server Operators:** Users setting up media servers, automation hubs, or lightweight web servers at home, who need optimized, pre-configured software stacks for rapid deployment and reliable operation.
+
+- **Minimalists and Performance Seekers:** Those prioritizing maximum system performance and minimal resource consumption, often running DietPi on older or resource-limited devices.
+
+- **SBC and Virtual Appliance Deployers:** Professionals or enthusiasts deploying multiple instances in virtualized environments or on SBCs for various roles, appreciating DietPi’s minimal base and automation capabilities.
+
+Across these groups, DietPi’s reliable automation and configuration tools simplify complex tasks, enabling swift, tailored setups without deep Linux expertise.
+
+### DietPi in Action: Practical Use Cases
+DietPi shines in real-world scenarios where setting up a complete system swiftly and efficiently is crucial.
+
+For instance, a home media enthusiast can install and configure popular media servers like Kodi or Plex with a few simple menu selections, leveraging DietPi’s optimized configurations tailored for the hardware. This enables streaming music and videos with minimal lag and maximum stability.
+
+Automation hobbyists benefit from DietPi’s support for platforms like Node-RED and Home Assistant, facilitating home automation projects that integrate with GPIO hardware, sensors, and IoT devices. Its lightweight footprint ensures these services run with ample performance headroom.
+
+For those deploying specialized appliances, DietPi’s extensive software selection includes VPN servers, web servers, DNS and ad-blocking services (Pi-hole, AdGuard Home), and cloud synchronization tools (Nextcloud, ownCloud). These can be quickly installed and automated, making the OS an ideal base for secure and private home or small office servers.
+
+Developers and system integrators also appreciate DietPi when creating virtual appliances or SBC deployments for distributed projects, combining the minimal OS with modular software that runs without unnecessary bloat.
+
+Consider the following example of installing a BitTorrent client optimized for your hardware:
+
+```bash
+sudo dietpi-software install 44  # Installs Transmission BitTorrent client
+```
+
+DietPi automatically handles dependencies, optimizations, and service configuration, saving setup hours.
+
+### Getting Started
+Getting started with DietPi in these target environments is straightforward. After installation and first boot, users can access the `dietpi-software` menu to select from hundreds of pre-optimized applications across categories such as media, automation, security, and development.
+
+DietPi also includes configuration tools like `dietpi-config` and easy-to-use automation features to tailor the system out-of-the-box. For detailed setup steps, users should refer to the [Getting Started section](/getting_started/introduction_prerequisites/about_dietpi_and_value) and explore use-case focused guides on software, networking, and system management.
+
+<Tip>
+New users can quickly customize DietPi for their hardware and software needs by leveraging the intuitive `dietpi-software` tool and ready-made software profiles.
+</Tip>
+
+Explore the full range of optimized software choices and get detailed instructions for your specific use case in the [Key Features at a Glance page](/overview/features-summary/dietpi-key-features) and detailed software guides.
+
+<Source url="https://github.com/MichaIng/DietPi" branch="main" paths={[{"path": "boot/dietpi/dietpi-software", "range": "1-3000"}]} />
