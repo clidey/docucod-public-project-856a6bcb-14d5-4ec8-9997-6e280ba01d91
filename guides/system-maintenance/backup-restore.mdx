@@ -1,0 +1,85 @@
+---
+title: "Backing Up and Restoring Your DietPi System"
+description: "Follow a practical workflow for creating full system backups and restoring DietPi with dietpi-backup. Learn how to configure, run, and verify backups, restore from saved images, and ensure your data is protected."
+---
+
+## Protecting Your DietPi System with dietpi-backup
+
+Creating reliable backups and having the ability to restore your system quickly is crucial for maintaining a stable DietPi environment. The `dietpi-backup` tool offers an integrated workflow for full system backups and restores, helping you safeguard your data and system state effortlessly.
+
+This guide walks you through configuring, running, and verifying backups using dietpi-backup, along with essential steps for restoring your DietPi system from saved backup images. You will learn how to ensure your backups contain all vital files, how to manage backup locations, and how to avoid common pitfalls to keep your system safe. Depending on your familiarity with Linux command line and system administration, expect to spend about 15–30 minutes becoming comfortable with this workflow.
+
+## Preparing for Backups: What You Need
+
+Before initiating backups, confirm some key prerequisites. Your root filesystem `/` must be mounted read-write, as dietpi-backup verifies this before proceeding. Ensure you have enough free space on the selected backup location; supported filesystems include ext2/3/4, F2FS, Btrfs, XFS, ZFS, or properly configured NFS/SSHFS mounts with full support for UNIX permissions and symlinks. 
+
+To configure or select your backup location interactively, you can use the dietpi-drive_manager utility. Familiarity with `rsync` is helpful but not mandatory, as the tool handles all transfer details internally. If you plan scheduled backups, ensure cron is active on your system. For restoring, it is highly recommended to verify your existing backups and understand the implications of UUID mismatches in restored environments to avoid boot issues.
+
+<Source url="https://github.com/MichaIng/DietPi" paths={[{"path": "dietpi/dietpi-backup", "range": "1-340"}]} />
+
+## Running Backups and Restores with dietpi-backup
+
+Dietpi-backup supports both manual interaction via a menu and non-interactive command parameters to run backups or restores directly.
+
+When you start `dietpi-backup` without options, you interact with a menu allowing you to configure your backup location, adjust filters for included/excluded paths, enable daily backups via cron, set how many backup versions to keep, and run backups or restores.
+
+The typical backup process involves selecting or confirming a target directory, then starting the backup. DietPi stops software services temporarily during this operation to ensure data consistency. It uses `rsync` to efficiently copy files from your root filesystem `/` to the backup location. If you keep multiple backup versions, older backups shift accordingly to preserve your history. The backup includes a filtering mechanism to exclude transient system paths, swap files, caches, and the backup folder itself to prevent recursive copying.
+
+Restoring follows a similar interactive pattern. The system verifies if the filesystem UUIDs between backup and current system match. If they differ, dietpi-backup intelligently checks and updates bootloader configurations (e.g., GRUB, Raspberry Pi cmdline, U-Boot scripts) to match current device UUIDs, helping ensure a successful boot after restoration. If these checks cannot be made, it warns you explicitly to proceed only if you are confident about manual adjustments.
+
+Each operation logs progress and details both to on-screen dialog and log files in the backup location, enabling you to review the success or diagnose issues if they arise.
+
+<Steps>
+<Step title="Select Backup Location">
+Use the menu option to choose a backup directory. You can browse mounted drives, enter a path manually, or search for existing backups. The location must be on a supported filesystem.
+</Step>
+<Step title="Adjust Backup Filters">
+Optionally edit the include/exclude filter file to customize what data should be saved or skipped. By default, temporary directories and the backup folder itself are excluded.
+</Step>
+<Step title="Configure Backup Frequency and Retention">
+Toggle daily backups on or off, configure how many backup copies to keep, and whether to perform free space checks before backing up.
+</Step>
+<Step title="Run Backup">
+Start the backup process via the menu. Services will stop, and `rsync` will synchronize your root filesystem to the backup folder.
+</Step>
+<Step title="Run Restore">
+Choose a backup version to restore (if multiple exist) and initiate the restoration. DietPi will stop services, replace system files, and update partition UUID references if needed.
+</Step>
+<Step title="Verify and Reboot">
+After restore completion, review the logs for any errors. A system reboot is strongly recommended to apply changes and boot your restored system.
+</Step>
+</Steps>
+
+## Verifying Backup Integrity and Troubleshooting
+
+Upon completing a backup or restore, dietpi-backup generates detailed logs inside the backup directory (`dietpi-backup.log` and `.dietpi-backup_stats`). These contain timestamps, file counts, and error messages if applicable. Always review these logs to confirm successful completion.
+
+Common issues include:
+- **Insufficient free space:** dietpi-backup performs rough dry-run checks to estimate needed free space and warns if insufficient. You can override the warning but be aware this may cause incomplete backups.
+- **Rsync process locked:** Parallel `rsync` executions are prevented. If you encounter an error about ongoing `rsync` processes, investigate running instances and wait or kill them before retrying.
+- **Filesystem support limitations:** Certain network or external drives may not fully support symlinks or UNIX permissions required for a complete backup.
+- **UUID mismatches after restore:** Restoring to a freshly flashed system with new UUIDs requires careful update of bootloader and fstab entries, which dietpi-backup attempts automatically when possible. Ignoring warnings here can result in boot failures.
+
+By default, the backup excludes temporary filesystems, `/dev`, `/proc`, `/sys`, swap files, and cache directories to ensure backups don't include volatile system state, thereby reducing backup size and time.
+
+<Tip>
+After restoring your system, always reboot to ensure all system services reload with the restored configuration.
+</Tip>
+
+## Next Steps and Related Tools
+
+Regular backups are essential, especially before system upgrades or configuration changes. Complement dietpi-backup with other DietPi tools like `dietpi-software` for managing installed applications, and `dietpi-update` for safely updating your system.
+
+Schedule automated daily backups once manual runs are tested and reliable. Customize the backup include/exclude filters if your use case requires preserving additional files or skipping certain directories.
+
+For networked or cloud backup scenarios, consider integrating with `dietpi-sync` for robust folder synchronization outside full system backups.
+
+Explore these guides to continue refining your DietPi system maintenance:
+
+- [Installing and Managing Software with dietpi-software](/guides/core-workflows/install-software)
+- [Keeping DietPi Up-to-Date](/guides/core-workflows/update-dietpi)
+- [Configuring System Settings with dietpi-config](/guides/core-workflows/configure-system)
+
+For detailed troubleshooting of backup/restore issues and system recovery methods, see [Resetting or Reinstalling DietPi](/getting_started/troubleshooting_faq/resetting_and_reinstalling).
+
+<Source url="https://github.com/MichaIng/DietPi" paths={[{"path": "dietpi/dietpi-backup", "range": "1-340"}]} />
