@@ -1,0 +1,88 @@
+---
+title: "Download and Prepare DietPi"
+description: "Learn how to obtain the latest DietPi image for your hardware platform, verify its integrity, and prepare it for installation using popular imaging tools like Etcher or Raspberry Pi Imager."
+---
+
+## Download and Prepare DietPi
+
+Preparing your device with the latest DietPi image is the crucial first step to unlocking its optimized, lightweight operating system for your hardware. This page walks you through obtaining the appropriate DietPi image for your specific single-board computer, verifying the download’s integrity to ensure it is safe and complete, and readying the image to be flashed onto your device using popular tools like Etcher and Raspberry Pi Imager. With these steps, you set a reliable foundation for your DietPi experience.
+
+## Understanding the DietPi Image
+
+Each DietPi image is tailored for distinct hardware platforms, ensuring the system takes maximum advantage of your device’s capabilities without excess overhead. Before downloading, identify your device model to select the correct image version. Images are typically compressed archives (.xz or .zip formats) containing the full operating system and pre-configured settings.
+
+Verifying the integrity of your image file is essential to avoid corrupted installations that can cause boot failures or erratic behavior. DietPi provides checksums (usually SHA256) alongside downloads, allowing you to confirm that your downloaded file is authentic and fully intact.
+
+## Downloading the Latest DietPi Image
+
+To obtain the latest DietPi image:
+
+<Steps>
+<Step title="Locate Your Device Image">
+Visit the official DietPi download page at https://dietpi.com/#download and find the image corresponding to your hardware platform (e.g., Raspberry Pi, Odroid, NanoPi).
+</Step>
+<Step title="Download the Image">
+Download the compressed image file (typically ending with .xz or .zip). Use a reliable, stable internet connection to prevent incomplete downloads.
+</Step>
+<Step title="Verify the Downloaded File">
+Download the corresponding SHA256 checksum file or note the checksum provided on the website.
+Use a command such as `sha256sum <filename>` on your local machine to generate a checksum of the downloaded file.
+Compare the output against the official checksum to confirm a match.
+</Step>
+<Step title="Extract the Image (Optional)">
+If your flashing tool requires an uncompressed image, extract the image file using an archive tool (e.g., `unxz image_name.img.xz` or unzip for .zip files).
+</Step>
+</Steps>
+
+If the checksum verification fails, do not proceed with flashing. Re-download the image to avoid potential data corruption.
+
+## Preparing the DietPi Image for Flashing
+
+After verifying your image, prepare it for your flashing tool of choice.
+
+Popular imaging tools include:
+
+- **Etcher**: A user-friendly cross-platform tool supporting Windows, macOS, and Linux.
+- **Raspberry Pi Imager**: Recommended for Raspberry Pi devices, it streamlines image selection and device configuration.
+
+Confirm your target storage media (typically an SD card or eMMC module) is connected to your computer and properly recognized.
+
+Before flashing, safely eject or close any applications accessing the target device to prevent write errors.
+
+## Flashing the DietPi Image
+
+Using your selected imaging tool, follow these generalized steps:
+
+<Steps>
+<Step title="Select Image File">
+In the imaging tool interface, choose the verified DietPi image file you downloaded.
+</Step>
+<Step title="Select Target Drive">
+Choose the correct storage device representing the target media for your device, such as your SD card.
+Double-check you have the right device to avoid overwriting other drives.
+</Step>
+<Step title="Start Flashing Process">
+Begin the flashing operation and wait for it to complete.
+This process may take several minutes depending on device speed.
+</Step>
+<Step title="Verify Flash Completion">
+Once flashing finishes, safely eject the media from your computer.
+</Step>
+</Steps>
+
+Avoid interrupting the flashing process to prevent image corruption.
+
+## Tips for a Smooth Setup
+
+- Use SD cards or storage media recommended for your SBC manufacturer for better reliability and performance.
+- When using Etcher, verify the image verification option is enabled for extra confirmation.
+- If Raspberry Pi Imager offers to pre-configure settings (WiFi, SSH), use these features for headless setups.
+
+## After Flashing
+
+Once your image is flashed and inserted into your device, you are ready to boot your device and proceed with the initial configuration steps.
+
+Refer to the next page: [Flashing the Image to Your Device](/getting_started/installation_setup/installing_flashing_device) for detailed instructions on completing the device setup.
+
+
+<Source url="https://github.com/MichaIng/DietPi" paths={[{"path": ".update/version", "range": "1-18"},{"path": "dietpi/dietpi-software", "range": "100-600"}]} branch="main" />
