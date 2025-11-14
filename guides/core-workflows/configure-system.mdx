@@ -1,0 +1,74 @@
+---
+title: "Configuring System Settings with dietpi-config"
+description: "A guided walkthrough of tuning your system's hardware and software settings using dietpi-config. Covers common adjustments such as networking, audio, localization, and more, enabling your device to perform optimally for your use case."
+---
+
+# Configuring System Settings with dietpi-config
+
+DietPi-Config is a versatile configuration utility that empowers you to tailor your DietPi system’s hardware and software settings to your specific needs. By using this tool, you can optimize your device’s performance, enable essential features, and adjust advanced options without directly editing configuration files, ensuring a streamlined and secure setup experience.
+
+## Optimizing Display and Visual Settings
+
+Adapting your system’s visual output is often the first step toward a smooth user experience. DietPi-Config helps you manage display options including resolution, rotation, and connected LCD or OLED panel addons. It supports a wide range of device types from Raspberry Pi to Odroid and NanoPi, offering curated presets as well as custom mode input.
+
+For Raspberry Pi devices, you can easily enable or disable the KMS/DRM driver to unlock enhanced graphical capabilities. When selecting rotation settings, the tool intelligently adjusts framebuffer dimensions to avoid display distortions. It also allows control over brightness for multiple backlight devices, with practical defaults and custom input.
+
+If you use specialized hardware like the Allo Boss2 DAC with OLED, or need video codec support through hardware acceleration, dietpi-config provides toggles to enable and configure these with minimal effort. This hands-on configuration avoids common pitfalls such as incorrect memory splits or incompatible video drivers.
+
+## Managing Audio and Performance Settings
+
+DietPi-Config gives you fine control over audio hardware and behavior, from basic sound card selection to enabling advanced automatic software conversions. For those using JustBoom hardware, a dedicated menu guides setup of audio-specific features like equalizer options and IR remote control.
+
+On the performance front, DietPi-Config reveals insightful system metrics such as current CPU governor settings, CPU temperature, and RAM usage. You can adjust CPU frequency limits and choose governors like "schedutil" or "ondemand" to optimize for power savings or performance. For Raspberry Pi users, predefined overclocking profiles are available, which have been extensively tested to balance stability with increased clock speeds. The tool includes warnings on overclocking risks, helping you make informed choices.
+
+You can tweak ondemand governor sampling rates and throttle-up thresholds to calibrate CPU responsiveness, or disable Intel turbo boost if necessary. This level of control ensures your system performs reliably under workloads, balancing energy use and thermal conditions.
+
+## Network Configuration for Wired and Wireless Connections
+
+DietPi-Config covers comprehensive networking setup, starting with Ethernet and WiFi adapters. It detects hardware and connection status, presenting clear options to enable, disable, or configure static and DHCP IP modes. You can adjust IP address, subnet mask, gateway, and DNS settings with built-in validation to prevent common configuration errors.
+
+For WiFi, you can scan available SSIDs, establish secure network connections, and toggle auto-reconnect features to maintain stable connectivity. The utility supports setting up WiFi Hotspots with customizable SSID, security keys, frequency bands (2.4 GHz or 5 GHz), and channel selection, along with 802.11n/ac/ax compatibility.
+
+DietPi-Config assists with country code settings to comply with wireless regulations and can enable or disable onboard WiFi adapters and Bluetooth modules. It also provides network testing tools to verify your internet connection by checking reachability against custom IPs or URLs.
+
+Changes to network configuration are applied immediately with automatic restarts, ensuring quick feedback on adjustments and minimizing downtime.
+
+## Language, Security, and Advanced Options
+
+Localization preferences are easily set with menus for selecting your system locale, time zone, and keyboard layout. These settings adapt your board for regional defaults, enhancing user comfort and compatibility with software.
+
+Security options include changing user passwords for root and the default dietpi user, updating the system hostname, and managing SSH server choices. You can switch between the lightweight Dropbear SSH server or the full-featured OpenSSH server, or disable SSH altogether for specialized use cases where remote access is not required.
+
+Advanced settings encompass swap file sizing and location, apt cache and list management to improve package handling performance, and fine-tuning of time sync behaviors including daemon modes and mirror selection.
+
+You can also configure serial and UART interfaces, toggling console access or enabling UART devices as needed, which is critical for headless operation or debugging.
+
+Facility for updating Raspberry Pi EEPROM or bootloader firmware is provided, streamlining essential hardware updates directly from the interface.
+
+## Practical Tools and System Utilities
+
+DietPi-Config integrates various utility menus that allow you to benchmark CPU, RAM, storage, and LAN performance, or perform stress tests to verify system stability. These tools are designed to help you understand and optimize your system's health and readiness for demanding workloads.
+
+The configuration process smartly determines when hardware or software changes require a reboot, prompting you with a simple dialog that preserves your workflow while ensuring your settings take full effect.
+
+By centralizing system tuning into a cohesive menu-driven environment, DietPi-Config minimizes manual configuration errors and frees you to focus on your project goals.
+
+<Tip>
+Always save configuration changes and, when prompted, reboot your system to ensure all adjustments are fully applied and effective.
+</Tip>
+
+<Source url="https://github.com/MichaIng/DietPi" paths={[{"path": "dietpi/dietpi-config", "range": "1-1118"}]} />
+
+---
+
+## Related Tools and Next Steps
+
+After configuring basic system settings, explore [Installing and Managing Software with dietpi-software](/guides/core-workflows/install-software) to add applications optimized for your device. For network and service control, the [dietpi-services](/guides/advanced-guides/service-management) tool offers additional customization. Keep your system secure and updated via the [Keeping DietPi Up-to-Date](/guides/core-workflows/update-dietpi) guide.
+
+Consult [Supported Hardware and Requirements](/getting_started/introduction_prerequisites/system_requirements) before extensive configuration and use [Troubleshooting Boot and Network Problems](/getting_started/troubleshooting_faq/boot_network_issues) if network connectivity issues arise.
+
+For detailed display setup, you may also want to check the [DietPi-Display] utility for advanced video output management.
+
+---
+
+**DietPi-Config** is your gateway to fine-tuning your system environment, balancing ease of use and advanced options to help your DietPi device perform exactly as you need.
