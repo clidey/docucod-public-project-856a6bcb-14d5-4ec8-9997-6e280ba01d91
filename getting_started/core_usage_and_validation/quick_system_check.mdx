@@ -1,0 +1,111 @@
+---
+title: "Quick System Check & Update"
+description: "How to verify that your DietPi system is healthy and up to date right after setup. Ensures new users are secure and ready to expand."
+---
+
+# Quick System Check & Update
+
+After completing the initial setup of your DietPi system, it’s crucial to verify that your system is running healthily and up to date. This ensures your installation is secure, stable, and ready for adding software and configuring advanced features.
+
+DietPi provides straightforward tools and automated checks designed to validate your system status, synchronize system time, and install necessary updates seamlessly.
+
+## Checking System Health and Network Connectivity
+
+Once your device has booted, DietPi actively monitors the network status and time synchronization, both critical for reliable system operation and package updates.
+
+DietPi employs a series of connectivity tests, including ping checks to known stable IP addresses for both IPv4 and IPv6, and domain name resolution to verify DNS functionality. These checks confirm that your network interfaces are operational and that your device can reach the internet.
+
+Should network issues arise, DietPi provides interactive prompts to help you double the timeout on ping attempts, update test IP addresses, or access network configuration menus. This proactive approach aids in troubleshooting connectivity problems right from the console.
+
+## Running the DietPi Update Utility
+
+Keeping DietPi up to date is made simple through the `dietpi-update` utility. When run, it first verifies your current DietPi version against the latest available release from the official GitHub repository. If updates exist, it offers to apply them interactively or can run non-interactively if specified.
+
+The update process includes downloading and applying patches, upgrading APT packages, and installing new DietPi scripts and system files. Post-update tasks ensure that configuration files like `dietpi.txt` and systemd services are appropriately updated and reloaded.
+
+DietPi also manages live patches — small fixes and improvements applied without a full system upgrade — and will prompt you to apply these as needed.
+
+If updates require a reboot to finalize (for example, new kernel modules), `dietpi-update` will prompt for or automatically perform the reboot to ensure system stability.
+
+<Steps>
+<Step title="Check Network and Time Sync">
+Run the following command to verify network connectivity and synchronize your system clock:
+
+```bash
+sudo /boot/dietpi/func/dietpi-update 2
+```
+
+Note: When `dietpi-update` runs, it automatically performs network checks and time synchronization, preparing your system for updates.
+</Step>
+<Step title="Run DietPi Update">
+To check for updates and install them interactively, execute:
+
+```bash
+sudo /boot/dietpi/dietpi-update
+```
+
+During the update, follow the on-screen prompts to apply patches and upgrades. If no updates are available, the utility will notify you.
+</Step>
+<Step title="Apply Live Patches">
+If live patches (minor fixes) are available, `dietpi-update` will offer you options to view and apply these patches. Accepting these ensures your system benefits from the latest bug fixes before a major update is released.
+</Step>
+<Step title="Reboot if Required">
+If the update process indicates a reboot is necessary, confirm to reboot immediately or do it manually later to complete the update cycle.
+
+```bash
+sudo reboot
+```
+</Step>
+</Steps>
+
+## Verifying Successful Update and System Readiness
+
+Confirming the update has been successful involves verifying that artifacts such as update flags have been removed and that your DietPi version reflects the latest installation.
+
+You can check your current version by viewing the version file:
+
+```bash
+cat /boot/dietpi/.version
+```
+
+This file shows the core version number, subversion, and release candidate details, helping you confirm your system is fully updated.
+
+Additionally, DietPi automatically synchronizes its time settings, and you can ensure your system clock is correct by running:
+
+```bash
+date
+```
+
+Network interfaces can be checked for their current IP addresses and connection status using the built-in network utility:
+
+```bash
+sudo /boot/dietpi/func/dietpi-globals G_GET_NET ip
+```
+
+This command prints the active IP address of your primary network adapter.
+
+## Practical Tips to Maintain System Health
+
+DietPi’s update tools are optimized to run efficiently and with minimal user intervention, but consider the following best practices to keep your system secure and reliable:
+
+- Regularly run `dietpi-update` to stay current with bug fixes and feature improvements.
+- Use the `dietpi-config` utility to review and adjust network settings if connection tests fail.
+- When prompted for reboot after updates, perform the reboot promptly to ensure all system components load correctly.
+- Avoid interrupting update processes to prevent partial system states.
+
+<Tip>
+If your network connectivity check repeatedly fails, verify physical connections, router DNS settings, and firewall configurations before proceeding with additional troubleshooting steps.
+</Tip>
+
+## Next Steps After Verification
+
+After confirming your DietPi system is healthy and up to date, you are ready to begin installing your first applications, manage system settings, or expand your DietPi experience.
+
+Explore these related guides to continue your setup:
+
+- [Installing Your First Application](/getting_started/core_usage_and_validation/installing_first_software) — Learn how to add optimized software tailored to your device.
+- [Configuring System Settings with dietpi-config](/guides/core-workflows/configure-system) — Customize hardware and system options to suit your needs.
+- [Keeping DietPi Up-to-Date](/guides/core-workflows/update-dietpi) — Best practices and options for ongoing system maintenance.
+
+<Source url="https://github.com/MichaIng/DietPi" branch="main" paths={[{"path": "boot/dietpi/dietpi-update", "range": "1-269"}]} />
+<Source url="https://github.com/MichaIng/DietPi" branch="main" paths={[{"path": "boot/dietpi/func/dietpi-globals", "range": "1000-1300"}]} />
