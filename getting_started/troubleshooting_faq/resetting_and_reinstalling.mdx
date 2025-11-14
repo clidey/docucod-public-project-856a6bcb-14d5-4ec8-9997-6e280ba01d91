@@ -1,0 +1,150 @@
+---
+title: "Resetting or Reinstalling DietPi"
+description: "Steps for safely resetting your DietPi device, troubleshooting persistent failures, and starting fresh, including backup best practices."
+---
+
+## Resetting or Reinstalling DietPi
+
+When your DietPi device experiences persistent issues that cannot be resolved through configuration or software adjustments, a clean reset or reinstall may be necessary. This process ensures a fresh start by clearing system modifications, restoring default settings, or reinstalling the entire operating system image while protecting your valuable data through prudent backups.
+
+DietPi’s design facilitates both soft resets—returning the system to a default state without wiping the entire system—and full reinstallation for complete refreshment. Understanding these distinctions and following best practices will help you maintain system integrity and minimize data loss.
+
+---
+
+## Preparing for Reset or Reinstall
+
+Before proceeding with a reset or reinstall, it is critical to safeguard your user data and system configurations. DietPi offers comprehensive backup tools that you should use to create a restore point of your current system state. This includes all personal files, installed software configurations, and database contents.
+
+Locations such as `/mnt/dietpi_userdata` commonly hold persistent user data, which should be preserved independently of system resets. Using the `dietpi-backup` tool, you can make full system backups to an external drive or network location, assuring you have a safety net should the reset require a restoration.
+
+Additionally, confirm that:
+- The system is plugged into a reliable power source.
+- You have a secondary device ready for assistance or to access the DietPi forums in case of unforeseen difficulties.
+
+<Steps>
+<Step title="Create a Backup">
+Run `dietpi-backup` from the terminal or menu to save your current system state to a supported backup location. Follow the interactive prompts to verify or adjust the backup target.
+</Step>
+<Step title="Verify Backup">
+After completion, review the backup logs accessible from within `dietpi-backup` to confirm success.
+</Step>
+</Steps>
+
+<Tip>
+Backing up before resetting or reinstalling is essential to prevent loss of your user data and installed software configurations.
+</Tip>
+
+---
+
+## Soft Reset: Resetting DietPi to Defaults
+
+A soft reset restores DietPi to its default configuration without requiring a full system reinstall. This process resets critical system configurations, clears logs, and removes installed software selectively while retaining the core OS and user data.
+
+Use this approach if your system is operational but misconfigured or unstable.
+
+To perform a soft reset:
+
+- Run the `dietpi-cleaner` utility.
+- Select options relevant to clearing install states, logs, and unneeded files.
+- Confirm removal of installed software as prompted.
+
+This process allows you to start fresh while keeping your data intact.
+
+<Steps>
+<Step title="Launch dietpi-cleaner">
+Execute `dietpi-cleaner` from the terminal or DietPi menu, and navigate through the cleaner categories to disable or clean as needed.
+</Step>
+<Step title="Select Cleaners">
+Enable options such as 'Logs', 'APT cache', and 'Files' to start a comprehensive cleanup.
+</Step>
+<Step title="Run Cleaning Process">
+Confirm and run the cleaning operation to reset system states and clear residual data.
+</Step>
+<Step title="Reboot the System">
+After completion, reboot your device with `reboot` to apply changes.
+</Step>
+</Steps>
+
+<Note>
+Soft resets do NOT reinstall the Linux OS image. Use full reinstall if you want to start anew completely.
+</Note>
+
+---
+
+## Full Reinstallation: Starting Fresh
+
+Sometimes, system issues stem from corrupted core files or persistent configuration errors that require a complete reinstallation of the DietPi operating system. This process involves flashing a new DietPi image onto your device’s storage media.
+
+Before reinstalling, ensure you have:
+
+1. Backed up all important data using `dietpi-backup` or manually copied from `/mnt/dietpi_userdata`.
+2. The correct latest DietPi image downloaded for your hardware.
+
+To reinstall DietPi:
+
+<Steps>
+<Step title="Download Latest Image">
+Go to the official DietPi website and download the appropriate image for your hardware platform.
+</Step>
+<Step title="Flash the Image">
+Use an image flashing tool such as Raspberry Pi Imager or balenaEtcher to write the image to your SD card or eMMC device. Follow platform-specific instructions carefully.
+</Step>
+<Step title="First Boot Setup">
+Insert the flashed media into your device and power it on. Follow the first boot prompts for initial configuration, including network setup, user accounts, and optional software installation.
+</Step>
+<Step title="Restore Data">
+After reinstall, use `dietpi-backup` to restore your previously saved system state and user data, or manually move data from external backups.
+</Step>
+</Steps>
+
+<Warning>
+Ensure to verify that the latest image matches your device model to avoid compatibility issues.
+</Warning>
+
+---
+
+## Troubleshooting Persistent Reset or Reinstall Failures
+
+If resetting or reinstalling fails, or the system repeatedly enters boot issues, consider the following checks:
+
+- **Power Supply**: Inadequate power can cause SD card corruption or boot failures.
+- **Storage Media**: Faulty or aging SD cards or eMMC modules may need replacement.
+- **Hardware Compatibility**: Confirm your device is officially supported.
+- **Backup Integrity**: Corrupted backups can cause failures on restore.
+
+Useful commands and checks include verifying mount points, filesystem integrity, and network connectivity using built-in DietPi utilities such as `dietpi-drive_manager` and `dietpi-update`.
+
+For more detailed solutions, consult the [Troubleshooting Boot and Network Problems](/getting_started/troubleshooting_faq/boot_network_issues) guide.
+
+<Steps>
+<Step title="Check Power and Storage Media">
+Test your power supply and replace your SD card or eMMC if uncertain.
+</Step>
+<Step title="Verify Backup Location and Contents">
+Mount your backup location and ensure backup files are complete and accessible.
+</Step>
+<Step title="Use dietpi-drive_manager">
+Run `dietpi-drive_manager` to verify and repair mount points and filesystem permissions if needed.
+</Step>
+<Step title="Retry Reinstallation or Restore">
+Attempt the reinstall or restore, reviewing error messages and logs for clues.
+</Step>
+</Steps>
+
+<Tip>
+Persistent failures often relate to hardware or power issues rather than software. Ensure your device and media are sound before deep troubleshooting.
+</Tip>
+
+---
+
+## Best Practices for Backup and Restore
+
+- Always create a backup before performing any reset or reinstall.
+- Store backups on external USB drives, network shares, or cloud storage that support symlinks and Unix permissions (e.g., ext4, NFS with full permissions).
+- Use the `dietpi-backup` tool for consistent and verified backups; it automates exclude/include filtering and filesystem integrity checks.
+- After restoring, verify system functionality before changing critical configurations.
+
+Backing up and restoring through DietPi’s utilities minimizes risks and ensures you can recover from mistakes or unexpected failures.
+
+<Source url="https://github.com/MichaIng/DietPi" paths={[{"path": "dietpi/dietpi-backup", "range": "1-660"}]} />
+<Source url="https://github.com/MichaIng/DietPi" paths={[{"path": "dietpi/dietpi-software", "range": "1-1000"}]} />

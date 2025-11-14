@@ -1,0 +1,56 @@
+---
+title: "Breaking Changes & Deprecations"
+description: "A clear summary of breaking changes and deprecated features introduced in DietPi releases. Users are alerted to critical shifts or removals that may impact their workflows, with actionable advice for addressing each change."
+---
+
+## Breaking Changes & Deprecations in DietPi
+
+This page outlines the critical updates related to breaking changes and deprecated features introduced in recent DietPi releases. It focuses specifically on significant shifts or removals that may impact your existing workflows when updating or managing DietPi systems. By understanding these changes, you can anticipate required adjustments, avoid unexpected disruptions, and leverage the latest platform improvements smoothly.
+
+### Understanding Critical Shifts and Deprecated Features
+
+Sometimes, maintaining a cutting-edge and optimized system experience requires the removal or replacement of outdated software or configurations. DietPi prioritizes a balance between lightweight efficiency and modern compatibility, which occasionally necessitates breaking changes. These changes include dropping support for legacy components, migrating software to newer versions, or restructuring system services for better reliability.
+
+For example, older software packages that are no longer maintained or compatible with current Debian releases are removed from the official DietPi software selection. Users still running these packages can keep their installations but will no longer receive updates or be able to re-install through DietPi's management utilities. Transition guides and recommendations often accompany such removals, helping users migrate to supported alternatives.
+
+Similarly, hardware support updates or kernel upgrades may require switching to different boot loaders or device tree overlays, which can sometimes break backward compatibility with previous configurations. DietPi addresses these changes with detailed migration scripts and interactive prompts, ensuring users are informed and guided throughout the upgrade process.
+
+### Managing Breaking Changes in Practice
+
+When performing system updates or migrations, especially cross-major-release upgrades such as from Debian Bullseye to Bookworm or Trixie, the DietPi update process automatically runs migration scripts that handle many compatibility adjustments. These include:
+
+- Replacing or migrating obsolete hardware identifiers and configuration files
+- Switching kernel branches or bootloader versions suited for newer systems
+- Removing deprecated or incompatible software options from installation lists
+- Updating system services to native systemd control instead of custom wrappers
+
+User interaction is requested when critical manual choices are necessary, such as selecting GPU drivers or choosing static IP configurations after DHCP-to-static migrations. Backup prompts are also integrated to safeguard user data before potentially disruptive changes occur. 
+
+In cases where previously compatible software has become deprecated, DietPi may mark these titles in the software list as unsupported or disabled on your platform, preventing accidental reinstalls. Users can explore alternative packages or newer supported applications within the software catalogue.
+
+### Best Practices for Handling Deprecated Features
+
+Maintain awareness of software and system state by regularly checking for update notifications via `dietpi-update` and reviewing changelogs available through the update tool menus. It's crucial to perform scheduled backups using `dietpi-backup` before major upgrades or software migrations to avoid data loss.
+
+If you encounter issues related to service start-up, missing modules, or configuration conflicts, confirm that the update process has completed all post-installation migrations. Some services once managed by DietPi’s own service scripts are migrated to be managed by native systemd units, so manual enablement or disabling might need adjustment.
+
+For software that has been renamed or replaced (e.g., Bitwarden_RS migrated to Vaultwarden), ensure you follow the provided migration guides and consider reinstalling the newer package to maintain ongoing support.
+
+### Summary
+
+The DietPi platform evolves by removing unsupported legacy components, modernizing service management, and aligning with upstream Debian developments. This page documents these breaking changes and deprecated features with actionable advice and migration assistance to ensure your system remains stable and current.
+
+We recommend users perform updates through DietPi's automated tools and consult the associated release notes and migration guides for detailed upgrade instructions.
+
+<Source url="https://github.com/MichaIng/DietPi" branch="main" paths={[{"path": ".update/patches", "range": "1-824"}]} />
+
+---
+
+For detailed procedural guidance on managing software, services, and migrations in DietPi, refer to the following documentation pages:
+
+- [Keeping DietPi Up-to-Date](/guides/core-workflows/update-dietpi)
+- [Installing and Managing Software with dietpi-software](/guides/core-workflows/install-software)
+- [Controlling Services and Optimizing Performance](/guides/advanced-guides/service-management)
+- [Upgrade & Migration Guide](/changelog/migration-guides/upgrade-instructions)
+
+Also, explore the [DietPi Release Notes](/changelog/release-history/dietpi-release-notes) for comprehensive insights on changes across versions.

@@ -1,0 +1,104 @@
+---
+title: "Troubleshooting Boot and Network Problems"
+description: "Common symptoms, root causes, and remedies for first boot failures, networking issues, and connectivity hiccups—plus where to look for logs and diagnostics."
+---
+
+## Understanding and Resolving Boot and Network Problems in DietPi
+
+Boot and network issues can disrupt your initial and ongoing use of DietPi, causing frustration and delays. This page focuses on helping you identify common symptoms, understand typical root causes, and apply practical solutions to problems during first boot, connectivity hiccups, or network setup failures. Additionally, you will learn where to find vital logs and diagnostics to aid in troubleshooting.
+
+DietPi employs a multi-stage boot process involving preboot, firstboot, and postboot scripts which prepare the system environment, hardware, and network interfaces. Networking in DietPi is managed to ensure early availability of the network, crucial for automatic updates and remote access.
+
+
+## Diagnosing Boot Failures and Network Issues
+
+When DietPi fails to boot correctly or experiences network problems, the cause is often rooted in configuration conflicts, hardware incompatibilities, or missing dependencies. The system provides well-structured logging and state information to pinpoint where a failure occurs. 
+
+If you encounter a hang during boot or network initialization, first determine which boot stage is affected: 
+
+- **PreBoot stage:** Runs initial hardware detection and basic setup before networking.
+- **FirstBoot stage:** Executes critical first-run configurations, including hardware-specific tweaks.
+- **PostBoot stage:** Completes final setup tasks after network services become available.
+
+Common network issues manifest as an inability to obtain an IP address, failure to access external resources for update syncing, or broken connectivity due to misconfigured interfaces.
+
+### Where to Look for Logs and Diagnostics
+
+DietPi writes logs for different boot phases and services in predictable locations. For boot and network problems, check:
+
+- `/var/tmp/dietpi/logs/dietpi-firstboot.log`: Captures output from firstboot scripts.
+- Systemd journal entries for `dietpi-preboot.service` and `dietpi-postboot.service`.
+- Network interface status via standard Linux commands such as `ip a` and `systemctl status ifup@<interface>.service`.
+
+The firstboot log is especially valuable as it captures all script outputs from initial hardware configuration to network setup tasks. Reviewing this log helps identify script failures or errors in applying settings.
+
+<Note>
+Early boot scripts run before the network becomes fully available. This may cause connectivity checks to fail simply because the network has not yet initialized. Understanding this timing is essential when troubleshooting.
+</Note>
+
+
+## Practical Steps to Resolve Common Issues
+
+To systematically troubleshoot boot and network issues, follow these coherent actions which emphasize verifying configurations and using built-in automation tools:
+
+1. **Verify Boot Stage Completion**: Confirm if firstboot completed successfully. If the file `/boot/dietpi/.install_stage` contains `2` or higher, the initial setup finished correctly.
+
+2. **Check Network Connectivity**: Use the built-in diagnostics to test IPv4 and IPv6 connectivity and DNS resolution. The `G_CHECK_NET` function internally runs ping tests and DNS queries, with options to adjust timeouts or change target IPs.
+
+3. **Inspect Network Interface Configurations**: Review the `/etc/network/interfaces` file and associated ifup services (`ifup@.service`) for correct interface naming (e.g., `eth0` or `wlan0`). DietPi dynamically adjusts these based on detected interfaces.
+
+4. **Review Systemd Services**: Confirm that network-related systemd units such as `dietpi-preboot.service`, `dietpi-firstboot.service`, and interface bring-up services are active and enabled.
+
+5. **Examine Boot and Network Logs**: Thoroughly scan `dietpi-firstboot.log` and journal logs for error messages or script failures that indicate hardware or configuration problems.
+
+6. **Apply DietPi Utilities for Fixes**: Re-run hardware detection with `/boot/dietpi/func/dietpi-obtain_hw_model`, adjust settings via `dietpi-config`, or invoke network reset utilities embedded in DietPi.
+
+<Steps>
+<Step title="Verify FirstBoot Stage">
+Run `cat /boot/dietpi/.install_stage` to confirm your system passed initial setup. A value of `2` or higher signals successful completion.
+</Step>
+<Step title="Diagnose Network Connectivity">
+Execute `ping -4 -c1 9.9.9.9` to test IPv4 network reachability, and `ping -6 -c1 2620:fe::fe` for IPv6. Use `getent hosts dns9.quad9.net` to check DNS resolution.
+</Step>
+<Step title="Check Network Interfaces">
+List network interfaces with `ip link show` and confirm active interfaces match those configured in `/etc/network/interfaces`. Adjust interfaces if mismatched.
+</Step>
+<Step title="Review Boot Logs">
+Open `/var/tmp/dietpi/logs/dietpi-firstboot.log` with `less` or `cat` to identify any errors during initial system setup.
+</Step>
+<Step title="Restart Problematic Services">
+Use `systemctl restart dietpi-preboot` or `systemctl restart ifup@eth0.service` to reinitialize services suspected to be malfunctioning.
+</Step>
+</Steps>
+
+<Tip>
+If network interfaces are not bringing up correctly, check for conflicting udev rules or missing kernel modules. DietPi’s patch system often applies necessary fixes during updates — ensure your system is current.
+</Tip>
+
+
+## Best Practices and Common Pitfalls
+
+Network issues often arise from incorrect interface naming conventions due to interface renaming by udev or mismatched configurations. DietPi attempts to reconcile interface names automatically during preboot, but manual changes or custom udev rules may interfere.
+
+Another frequent cause of boot delays or failures is network time synchronization hanging when there is no network connection. DietPi mitigates this by running time synchronization asynchronously in the postboot phase, but this can be affected by certain network setups.
+
+It is advisable to avoid manual changes in network scripts unless you understand how DietPi dynamically manages interfaces and services, to prevent conflicts.
+
+Remember to keep the system up to date by running `dietpi-update` after getting the network working, ensuring that patches and service improvements are applied.
+
+
+## Next Steps and Related Resources
+
+For deeper understanding and further troubleshooting, consult the following key documentation:
+
+- [First Boot and Basic Configuration](/getting_started/installation_setup/first_boot_initial_config) explains what to expect during the initial setup process.
+  
+- [Installing Your First Application](/getting_started/core_usage_and_validation/installing_first_software) for steps to get your system running software after resolving network issues.
+
+- [Configuring System Settings with dietpi-config](/guides/core-workflows/configure-system) offers guidance on adjusting network and hardware settings post-boot.
+
+- Access [Where to Get Help & Next Steps](/getting_started/troubleshooting_faq/where_to_get_help) for community support if issues persist.
+
+Taking a methodical approach using DietPi’s built-in tools and logs will lead to quick resolution of boot and network difficulties, setting you on the path for a smooth and reliable system experience.
+
+<Source url="https://github.com/MichaIng/DietPi" paths={[{"path": "rootfs/var/lib/dietpi/services/dietpi-firstboot.bash", "range": "1-153"},{"path": "rootfs/etc/systemd/system/dietpi-firstboot.service", "range": "1-15"},{"path": "dietpi/preboot", "range": "1-42"},{"path": "dietpi/postboot", "range": "1-54"},{"path": "dietpi/func/dietpi-globals", "range": "1-780"},{"path": "rootfs/etc/systemd/system/ifup@.service", "range": "1-20"}]} />

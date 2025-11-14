@@ -1,0 +1,75 @@
+---
+title: "Core Concepts and Terminology"
+description: "Defines essential ideas such as 'optimized software installation', 'automated configuration', and 'service prioritization'. Introduces terms like dietpi-software, dietpi-services, dietpi-update, dietpi.txt, and the use of interactive bash/whiptail menus. Prepares users to recognize and apply these concepts throughout the product."
+---
+
+## Core Concepts and Terminology
+
+Understanding the foundational concepts within DietPi is essential to harness its full power and achieve streamlined, optimized management of your device. This page introduces the key terms and ideas that shape how DietPi operates, equipping you to recognize and apply these concepts as you configure, maintain, and automate your system.
+
+### What Does Optimized Software Installation Mean?
+
+At the heart of DietPi’s usability is its approach to software installation, which is designed to be not just quick but genuinely optimized for your hardware. When you install software with DietPi, it is configured to be 'ready to run' on your specific device, meaning unnecessary dependencies are avoided, relevant settings are tailored, and service priorities adjusted to maximize performance and efficiency.
+
+Software installed through DietPi's ecosystem is grouped meaningfully and includes intelligent dependency resolution. For example, if you install a media server, DietPi’s system ensures essential backend services like databases and webservers are automatically installed and configured. This cascaded, dependency-aware installation saves you time and prevents common setup pitfalls.
+
+### Automated Configuration: Simplifying Complex Setups
+
+DietPi introduces the concept of automated configuration to minimize manual post-installation adjustments. Through tools like `dietpi-software` and `dietpi-config`, optimized settings are applied seamlessly, including network settings, user permissions, hardware-specific tweaks, and service controls.
+
+The automated configuration takes advantage of a centralized configuration file (`/boot/dietpi.txt`), which acts as a single source of truth for various system parameters, from software selections to network setup. This enables effortless automation for initial setups, allowing users to define preferences beforehand or reuse configurations across devices.
+
+For users looking to automate deployments fully, customizable pre- and post-install scripts (`DietPi-Automation_Pre`, `DietPi-Automation_Post`) are integrated into the installation flow, enabling complex workflows without manual interaction.
+
+### Service Prioritization and Management
+
+A distinctive feature of DietPi is its fine-grained service control through `dietpi-services`. This tool goes beyond the traditional start, stop, enable, and disable commands by allowing users to define service process priorities. You can adjust CPU affinity, scheduling policies, and I/O priorities to ensure critical services receive the necessary resources while less essential ones operate with reduced system impact.
+
+Such prioritization fosters a stable and responsive environment, especially important for devices with limited resources. For example, you might prioritize a media server to have higher CPU affinity and real-time CPU scheduling, while background daemons like backups can run with lower priority, preserving overall performance.
+
+### Key Terms and Tools in DietPi
+
+- `dietpi-software` — The cornerstone application installer, providing a curated software catalogue of optimized, ready-to-run applications with intelligent dependency handling.
+- `dietpi-services` — Manages system services with advanced options for adjusting resource allocation, including process priority and CPU/I/O scheduling.
+- `dietpi-update` — Automates DietPi system updates, with mechanisms for live patching and migration across Git branches according to your system’s compatibility.
+- `dietpi.txt` — The main configuration file holding system-wide options, such as automated setup flags, software selection IDs, and network settings.
+- Interactive Bash/Whiptail menus — DietPi employs whiptail-driven GUI-like terminal menus that enable streamlined, user-friendly configuration experiences without overwhelming with technical details.
+
+### Applying Core Concepts in Practice
+
+When you start with `dietpi-software`, you are presented with a comprehensive list of software categories and titles, each tailored to your hardware capabilities. For example, if you install a BitTorrent client, DietPi takes care of optimizing cache sizes based on your system RAM, configuring the necessary services and dependencies automatically, and adjusting service priorities for optimal performance.
+
+Using `dietpi-services`, you can adjust these launched services dynamically through a user-friendly interface. For instance, you could set your media server to run with real-time CPU scheduling policy or assign particular CPUs to database services to avoid conflicts.
+
+The update workflow handled by `dietpi-update` ensures your DietPi installation stays current by fetching code updates from GitHub and applying patches incrementally without requiring a full image reflash.
+
+Throughout these tools, the use of configuration injection (`G_CONFIG_INJECT` function) simplifies editing configuration files predictably and safely, keeping your system consistent and reducing manual file conflicts.
+
+<Tip>
+Getting comfortable with these core concepts will empower you to customize DietPi precisely to your use case, from home media centers to headless servers or complex automation setups.
+</Tip>
+
+### Common Pitfalls and Best Practices
+
+Manual interference with service configurations and dependencies outside of DietPi’s management can lead to conflicts and unpredictable behavior. Whenever possible, use DietPi tools for configuration to maintain system consistency.
+
+When automating installations via `dietpi.txt`, verify that your software ID selections are compatible with your hardware and Debian version, as non-compatible software is automatically disabled.
+
+Always test network and system configurations after automation scripts run, as these form the foundation for successful software installs and updates.
+
+<Note>
+Use `dietpi-software list` to display supported software for your hardware and OS version, helping avoid unsupported installs.
+</Note>
+
+### Where to Go Next
+
+Now that you understand these critical concepts and terminology, you’re ready to dive into practical workflows such as installing software with `dietpi-software`, configuring your system with `dietpi-config`, or managing services via `dietpi-services`.
+
+Explore the following pages for detailed guides and usage examples:
+
+- [Installing and Managing Software with dietpi-software](/guides/core-workflows/install-software)
+- [Configuring System Settings with dietpi-config](/guides/core-workflows/configure-system)
+- [Keeping DietPi Up-to-Date](/guides/core-workflows/update-dietpi)
+- [System Architecture Overview](/overview/dietpi-architecture/system-architecture)
+
+<Source url="https://github.com/MichaIng/DietPi" paths={[{"path": "boot/dietpi/dietpi-software", "range": "1-1000"},{"path": "boot/dietpi/func/dietpi-globals", "range": "1-1000"},{"path": "boot/dietpi/dietpi-services", "range": "1-3000"}]} />

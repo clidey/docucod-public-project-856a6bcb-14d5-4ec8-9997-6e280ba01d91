@@ -1,0 +1,63 @@
+---
+title: "What is DietPi?"
+description: "Discover DietPi's vision—an ultra-lightweight, optimized Debian-based OS for single-board computers and minimal-resource systems. Learn about its core advantages, supported workflows, and how it differs from other distributions."
+---
+
+# What is DietPi?
+
+DietPi is an ultra-lightweight, Debian-based operating system specially designed to maximize performance and efficiency for single-board computers (SBCs) and minimal-resource systems. It strips unnecessary software and processes to minimize CPU and RAM usage, allowing your device to operate at its full potential with less overhead. Unlike many general-purpose distributions, DietPi focuses on optimized, ready-to-run software and automated configuration to streamline your system setup and management.
+
+This focus on efficiency and simplicity makes DietPi particularly valuable for makers, home servers, media centers, and low-powered appliances where resource constraints are critical. By leveraging a minimal Debian base enhanced with intelligent automation scripts, DietPi delivers a seamless experience, enabling users to install, configure, and run software effortlessly through user-friendly whiptail menus.
+
+## Core Advantages of DietPi
+
+DietPi shines by balancing minimal system resource consumption with powerful automation and ease of use. It incorporates lightweight scripts that automate otherwise complex setup steps, including hardware configuration, software installation, and system optimization. Key advantages include:
+
+- **Minimal resource usage:** DietPi is designed to run comfortably on SBCs with limited CPU power and RAM, keeping the system lean.
+- **Ready-to-run software:** A curated selection of optimized applications can be installed quickly with DietPi's software installer (`dietpi-software`), eliminating manual configuration.
+- **Automated configuration:** The OS automatically applies system settings like CPU governor adjustments, network setup, hardware tweaking, and secure defaults, reducing manual steps.
+- **Simplified interaction:** Users interact primarily through dialogs and menus that hide the complex details, making it accessible even to less experienced users.
+- **Modular design:** Core components such as preboot/postboot scripts, service prioritization tools (`dietpi-services`), and an update mechanism (`dietpi-update`) enable comprehensive system management.
+
+## How DietPi Works
+
+DietPi boots by first running a `preboot` script, responsible for gathering hardware data and applying base settings like CPU configurations. This occurs before network initialization, ensuring your device's hardware is optimally configured from the start. Following the preboot process, the system runs additional postboot scripts that launch background services and apply further system optimization.
+
+User interaction typically begins at login, where DietPi presents a customized banner providing system information like uptime, IP addresses, and resource usage. After login, a launcher menu (`dietpi-launcher`) gives quick access to common DietPi programs for installing software, configuring system settings, managing backups, and more. This approach streamlines getting started and ongoing system management.
+
+## Differentiation From Other Distributions
+
+While Debian-based, DietPi sets itself apart by extensively optimizing for low resource consumption and ease of use on SBCs and embedded devices:
+
+- It removes non-essential packages, focusing on an optimized core.
+- Provides multiple layers of automation and configuration tools, minimizing user input.
+- Bundles ready-to-run applications optimized specifically for constrained environments.
+- Acts as a hub for a wide variety of software categories, from media to networking to gaming.
+- Supports advanced but otherwise complex setups with simple menus.
+
+This combination enables users to deploy functional, high-performance systems with minimal technical overhead.
+
+## Practical User Scenarios
+
+DietPi excels in real-world use cases where efficient, simple operation is paramount. Examples include:
+
+- Setting up a home media server with optimized streaming software.
+- Running lightweight IoT or automation controllers on low-power SBCs.
+- Deploying network appliances like VPN clients or Pi-hole.
+- Quickly configuring an SBC for gaming emulators or retro systems.
+
+Every feature in DietPi, from its automated hardware tweaks to its streamlined shell menus, aims to accelerate the journey from device setup to productive use.
+
+## Getting Started With DietPi
+
+Users interested in DietPi should begin with the Getting Started guides to make the most of the OS. This includes understanding system prerequisites, hardware compatibility, and step-by-step installation and configuration processes.
+
+Key resources to explore next include:
+
+- [System Architecture Overview](/overview/dietpi-architecture/system-architecture) for insights into DietPi’s layered design.
+- [Core Concepts and Terminology](/overview/dietpi-architecture/core-concepts-terminology) to familiarize with essential tools and workflows.
+- [Installing and Managing Software with dietpi-software](/guides/core-workflows/install-software), to leverage DietPi's optimized software installer.
+
+DietPi's rich automation and modular tools ensure that even users new to SBCs or Debian-based systems can enjoy a smooth and efficient experience.
+
+<Source url="https://github.com/MichaIng/DietPi" paths={[{"path": "dietpi/func/dietpi-globals", "range": "1-300"},{"path":"dietpi/func/dietpi-banner","range":"1-220"}]} branch="main" />

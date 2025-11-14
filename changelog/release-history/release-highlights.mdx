@@ -1,0 +1,44 @@
+---
+title: "Recent Feature Highlights"
+description: "A curated list spotlighting major recent improvements across DietPi—covering software upgrades, security enhancements, and performance wins—to help users quickly understand system advancements and adoption benefits."
+---
+
+## Recent Feature Highlights
+
+The Recent Feature Highlights page provides a curated overview of significant improvements and updates within DietPi. It helps you quickly grasp meaningful software upgrades, security enhancements, and performance optimizations that have been integrated into the system. This resource focuses on changes that impact your experience directly, enabling informed decisions about upgrades and new feature adoption.
+
+As DietPi continually evolves, this list shines a spotlight on impactful developments, such as new software versions, migration workflows, and legacy support removals. Unlike generic changelogs, it offers context and user-centric value assessments, ensuring you understand not just what changed, but why it benefits you.
+
+### Key System Upgrades and Software Reinstalls
+
+DietPi’s upgrade mechanisms have been robustly improved to facilitate smooth migrations across major Debian releases, including switches from Bullseye to Bookworm and Bookworm to Trixie. The `dietpi-trixie-upgrade` and `dietpi-bookworm-upgrade` scripts are prime examples, automating complex package list migrations, kernel checks, and compatibility warnings to minimize upgrade pitfalls. They also include safeguards such as backup prompts and conflict resolution for deprecated software packages.
+
+An important aspect of upgrades involves automated software reinstalls. Dependency migrations—for PHP, Python, Java runtimes—and updates to critical services like PostgreSQL, Docker, and various media or automation applications are bundled intelligently during release transitions. This ensures your installed software keeps working seamlessly with the underlying system. For example, during the Trixie upgrade, all PHP and Python-based applications requiring updated modules are reinstalled automatically to prevent compatibility issues.
+
+The upgrade process also includes the removal of obsolete and conflicting packages, such as legacy Docker Compose, deprecated PHP versions, and unused firmware packages. This cleanup improves system stability and reduces security risks.
+
+### Enhancements to `dietpi-software` and Software Availability
+
+`dietpi-software` remains the cornerstone utility for managing your system’s software, offering a vast curated catalog tailored to DietPi’s minimal resource ethos. Recent updates have refined software dependency handling, installation and removal workflows, and system integration. Noteworthy is the enhanced accuracy in detecting hardware and Debian version compatibility, dynamically disabling unsupported titles to prevent failed installs.
+
+The tool now better resolves dependencies on desktops, browsers, and webservers by prompting you for your preference or auto-selecting based on your existing setup, making software installation more intuitive. It provides improved post-installation configuration steps such as pre-creating user accounts, symlinks, and systemd service files, all designed to streamline your workflow from selection to use.
+
+Support for newer software versions and replacements—for instance, migrating from legacy VPN clients to the new dietpi-vpn, updated Docker and Kubernetes components, or the transition from Monoliths like Sonarr v3 to v4 with reduced dependencies—reflects DietPi’s commitment to maintaining cutting-edge functionality while ensuring performant operation.
+
+### Security and Performance Optimizations Embedded in Updates
+
+Security improvements are consistently integrated, such as migrating certificate handling to support Let’s Encrypt via Certbot integration, strengthening PHP configurations, and enhancing service startup safety through hardened systemd units. The management and migration of cryptographic keys, updated host key configurations for SSH communications, and the deprecation of vulnerable dependencies are part of the upgrade narratives.
+
+Performance has been enhanced with more granular service control and optimized package installs, like allocating appropriate GPU memory for applications or adjusting CPU governors automatically during installs. Additionally, services that are no longer needed or conflict with modern setups are removed to reduce unnecessary load or risk.
+
+These enhancements collectively raise the stability, security, and efficiency of your DietPi installations with minimal user intervention.
+
+### User Experience and Workflow Simplifications
+
+The changes documented here also focus on smoothing the user journey, reducing the need for manual fixes or workarounds. For example, the removal of deprecated software like emonHub or CouchPotato after careful consideration, and offering migration paths or alternative recommendations, avoids confusion and ensures your system stays current and supported.
+
+The automated upgrade scripts include prompts that anticipate common failures, network and kernel readiness, and encourage safe reboot points. The software manager’s interactive menus have been refined for screen size, descriptive clarity, and error mitigation during batch installations or removals.
+
+Overall, this page is your go-to resource for understanding why a DietPi update is not just a system patch, but a curated evolution that directly serves your efficiency, security, and enjoyment.
+
+<Source url="https://github.com/MichaIng/DietPi" paths={[{"path": "dietpi/dietpi-software", "range": "1-1431"},{"path": "dietpi/dietpi-update", "range": "1-483"},{"path": ".meta/dietpi-trixie-upgrade", "range": "1-142"}]} />

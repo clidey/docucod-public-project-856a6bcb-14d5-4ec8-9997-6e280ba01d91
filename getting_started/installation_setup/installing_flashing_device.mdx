@@ -1,0 +1,89 @@
+---
+title: "Flashing the Image to Your Device"
+description: "Guided steps for transferring the DietPi image to your SD card, eMMC, or other supported storage, with platform-specific configuration notes for common boards (e.g., Raspberry Pi, Odroid, NanoPi)."
+---
+
+## Flashing the Image to Your Device
+
+Installing DietPi onto your hardware involves transferring the DietPi image file to an SD card, eMMC module, or other supported storage media. This process prepares your device to boot DietPi and is critical for a successful setup. This guide walks you through the essential preparation and flashing steps, with special considerations for popular platforms such as Raspberry Pi, Odroid, and NanoPi.
+
+### Preparing to Flash
+
+Before beginning, ensure you have the correct DietPi image for your device model downloaded and verified. Use tools like Balena Etcher, Raspberry Pi Imager, or `dd` command for flashing images. The drive you flash to must be properly identified to avoid data loss on unintended devices.
+
+Make sure your target device is powered off and the storage media (SD card or eMMC) is connected to your host computer.
+
+### Flash the DietPi Image
+
+The flashing process uses a dedicated image file designed specifically for your hardware. Write this image to your storage media following these steps:
+
+<Steps>
+<Step title="Insert Storage Media">
+Insert the SD card or eMMC module into your computer using the appropriate adapter.
+</Step>
+<Step title="Select the DietPi Image">
+Open your flashing tool and select the DietPi image matching your device.
+</Step>
+<Step title="Choose Target Device">
+Select the correct storage device corresponding to your SD or eMMC module.
+</Step>
+<Step title="Start Flashing">
+Begin the write process. Wait until completion before removing the media. This ensures data integrity.
+</Step>
+<Step title="Safely Eject the Media">
+Once flashing completes, safely eject the SD card or eMMC from your host computer.
+</Step>
+</Steps>
+
+### Platform-Specific Configuration Notes
+
+DietPi configures your device automatically on first boot, but some platforms require extra steps or have particular behaviors during flashing or initial setup:
+
+- **Raspberry Pi:** The config.txt file in the boot partition contains hardware-specific parameters such as GPU memory split, display settings, and interfaces to enable or disable. DietPi uses this file to optimize system performance and hardware compatibility. For example, the `gpu_mem_1024` parameter adjusts video memory for Raspberry Pi models, and options exist for enabling the camera or codec support.<br />
+  Some deprecated overlays or settings may be updated or removed during the first boot or firmware migration.<br />
+  <Note>
+  If upgrading from older DietPi images, a firmware migration may happen via the `dietpi-rpi-firmware-migration` script, ensuring compatibility with newer Debian versions and the Raspberry Pi kernel.<br />
+  Attempting this on unsupported devices or distros will abort.<br />
+  </Note>
+
+- **Odroid:** Odroid devices use boot.ini to define boot parameters, including HDMI resolution and output mode. Flashing the image prepares this file accordingly. Referencing device tree overlays and bootloader updates are handled during initial setup or update processes.<br />
+
+- **NanoPi and Other Boards:** Depending on the model, device-specific overlays and kernel modules are applied via files like dietpiEnv.txt or uEnv.txt. Some devices require flashing updated bootloaders (U-Boot) or SPI storage via DietPi tools.
+
+### Verify Success
+
+After flashing your device and booting it with the flashed media, you should expect to reach the DietPi login prompt or initial setup screen. You can verify network connectivity with:
+
+```bash
+ip addr show
+```
+
+and confirm hardware recognition and configuration by running:
+
+```bash
+dietpi-obtain_hw_model
+```
+
+Check that your device matches your expected hardware, and that no error notifications appear during boot.
+
+### Common Pitfalls and Tips
+
+<Tip>
+Always verify the selected storage device before flashing to prevent overwriting important data.
+</Tip>
+
+<Warning>
+Do not remove the storage media while flashing is in progress; corruption may render your device unbootable.
+</Warning>
+
+<Tip>
+For Raspberry Pi users, review and customize `/boot/config.txt` after flashing if you have display or hardware-specific needs.
+</Tip>
+
+### What Comes Next?
+
+Once flashing is complete and the device boots into DietPi, proceed to the [First Boot and Basic Configuration](/getting_started/installation_setup/first_boot_initial_config) guide. There, you'll learn to finalize your setup, configure system options, and install software.
+
+For detailed hardware management and further system settings, explore [Configuring System Settings with dietpi-config](/guides/core-workflows/configure-system).
+
+<Source url="https://github.com/MichaIng/DietPi" paths={[{"path": "dietpi/func/dietpi-set_hardware", "range": "1-364"},{"path": ".meta/dietpi-rpi-firmware-migration", "range": "1-69"},{"path": ".build/images/RPi/config.txt", "range": "1-52"},{"path": ".build/images/OdroidC1/boot.ini", "range": "1-70"}]} />

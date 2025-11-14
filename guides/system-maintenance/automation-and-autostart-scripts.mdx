@@ -1,0 +1,97 @@
+---
+title: "Automation with dietpi.txt and Autostart Scripts"
+description: "Learn how to automate your DietPi deployments—preconfigure installations, scripts, and default behaviors using dietpi.txt and DietPi's autostart/postboot features. Ideal for repeatable setups and headless systems."
+---
+
+# Automation with dietpi.txt and Autostart Scripts
+
+Automating your DietPi setup empowers you to predefine system configurations and behaviors, enabling seamless, repeatable deployments especially suited for headless or large-scale environments. Through the `dietpi.txt` configuration file and DietPi’s autostart and postboot scripts, you can control initial system parameters, apply custom scripts, and specify how your device should launch applications or services at boot.
+
+Harnessing these automation capabilities drastically reduces manual steps after flashing your device, accelerates first boot setups, and fosters consistency in multi-device scenarios.
+
+## Preconfiguring Your System with dietpi.txt
+
+The core of DietPi’s automation lies in the `dietpi.txt` file located on the boot partition. This configuration file acts as a blueprint applied during the first boot, setting essential system-wide parameters such as network settings, locale, hostname, passwords, swap configuration, and service preferences.
+
+Typical settings to tailor include enabling or disabling Ethernet and WiFi adapters, defining static IP addresses, setting time zone and locale, and selecting autostart behaviors. By editing `dietpi.txt` before first boot, you ensure your device applies these preferences automatically without user intervention.
+
+For example, setting `AUTO_SETUP_NET_ETHERNET_ENABLED=1` enables Ethernet, while `AUTO_SETUP_NET_WIFI_ENABLED=0` disables WiFi, favoring a wired connection. Complement these with hostname and password entries to fully prepare the device for unattended operation.
+
+Importantly, `dietpi.txt` also supports more advanced automation directives such as:
+
+- Running custom scripts before or after network setup
+- Defining software packages to auto-install on first boot
+- Controlling swap file size and location
+- Configuring SSH server preferences and disabling password logins for security
+
+This declarative approach allows for consistent and automated deployment of DietPi across diverse hardware.
+
+<Tip>
+Editing `dietpi.txt` is intended for advanced users. For typical scenarios, rely on DietPi’s interactive menus, but when automation or repeatability is key, fine-tuning `dietpi.txt` unlocks powerful unattended setups.
+</Tip>
+
+## The PostBoot Script: Finalizing Setup After System Boot
+
+Following system startup, DietPi runs the `postboot` script (`/boot/dietpi/postboot`), orchestrated by the `dietpi-postboot.service`. This script acts as a finalization step after preboot and networking are ready, handling tasks such as initializing swap files for pre-installed images, triggering surveys, syncing time, checking for updates, and running user-defined scripts.
+
+The script reads the system’s install stage to determine the appropriate initialization steps—starting with `10` indicating a first run on a pre-installed image and transitioning to `2` for regular boots. Notably, it runs network time synchronization and DietPi update checks in the background, respecting user update preferences configured in `dietpi.txt`.
+
+Critically, `postboot` also executes any scripts placed in `/var/lib/dietpi/postboot.d/`, enabling users to inject custom operations at the end of the boot process without modifying system files. Executed as root, these scripts can perform one-time adjustments, maintenance, or initializations specific to your deployment.
+
+<Tip>
+User scripts in `/var/lib/dietpi/postboot.d/` should be quick one-shot tasks as they may delay the login prompt. Long-running background processes are discouraged here.
+</Tip>
+
+## Automating Application Launch with dietpi-autostart
+
+To control what your DietPi system launches at startup, the `dietpi-autostart` script (`/boot/dietpi/dietpi-autostart`) manages autostart options for a variety of use cases — from booting directly into Kodi media center, starting graphical desktop environments with LightDM, launching browser kiosks like Chromium, to custom user scripts.
+
+This utility supports both interactive menus and non-interactive command-line invocation by passing an autostart index, providing flexibility to automate startup behavior precisely.
+
+When selecting an autostart mode, the script disables prior autostart services, sets up autologin if applicable, and configures systemd services accordingly. For LightDM desktop autologin, it ensures the presence of the X server and applies necessary graphics driver settings for optimal performance.
+
+For custom workflows, users can create their own shell scripts at `/var/lib/dietpi/dietpi-autostart/custom.sh` which the autostart system runs either in the background or foreground depending on the chosen mode, allowing for bespoke automation tailored to specific needs.
+
+<Note>
+`dietpi-autostart` requires installed and properly configured target applications (e.g., Kodi, LightDM). Ensure these are installed via `dietpi-software` or your automation scripts before activating the corresponding autostart mode.
+</Note>
+
+## Best Practices for Automating Your DietPi Deployment
+
+To ensure automation runs smoothly and reliably:
+
+- Validate your `dietpi.txt` syntax carefully to prevent boot-stage failures.
+- Use the postboot directory for clean, idempotent scripts that must run after all system services start.
+- Confirm network availability if your automation depends on external resources.
+- Select autostart modes matching installed software to avoid start failures.
+- Test your automation flow on single devices before mass deployment.
+
+By combining `dietpi.txt` for system-wide configuration, `postboot` for final boot tasks, and `dietpi-autostart` for session launch control, you create a robust, hands-free DietPi environment tailored exactly to your application.
+
+## Troubleshooting Automation
+
+To verify your automation is functioning as intended, check the following:
+
+- Inspect `/boot/dietpi/.install_stage` for current install phase (values like `10` or `2`).
+- Review logs under `/var/tmp/dietpi/logs/` such as `dietpi-firstboot.log` and any output from your custom postboot scripts.
+- Confirm autostart settings are saved correctly (e.g., `/boot/dietpi/.dietpi-autostart_index`).
+- Ensure your scripts in `/var/lib/dietpi/postboot.d/` have execute permissions and do not hang or crash.
+- Validate network and update synchronization status when enabled in `dietpi.txt`.
+
+<Warning>
+Since automation touches early boot and critical system settings, incorrect configurations can prevent successful boot or cause unwanted delays. Always test automation tweaks incrementally and keep backup images ready.
+</Warning>
+
+For more detailed help, see the [First Boot and Basic Configuration](/getting_started/installation_setup/first_boot_initial_config) guide and the [Troubleshooting Boot and Network Problems](/getting_started/troubleshooting_faq/boot_network_issues) page.
+
+---
+
+<Source url="https://github.com/MichaIng/DietPi" paths={[{"path": "/boot/dietpi/postboot", "range": "1-56"},{"path": "/boot/dietpi/dietpi-autostart", "range": "1-230"},{"path": "/boot/dietpi.txt", "range": "1-180"}]} />
+
+---
+
+Explore further to master DietPi automation workflows by checking out the [Installing and Managing Software with dietpi-software](/guides/core-workflows/install-software) guide and [Configuring System Settings with dietpi-config](/guides/core-workflows/configure-system).
+
+
+---
+

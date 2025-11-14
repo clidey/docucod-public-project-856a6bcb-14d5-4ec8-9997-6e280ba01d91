@@ -1,0 +1,121 @@
+---
+title: "Controlling Services and Optimizing Performance"
+description: "How to use dietpi-services to manage the order, priority, and scheduling of your installed system and application services for best performance and stability."
+---
+
+# Managing Services and Optimizing Performance with dietpi-services
+
+In any optimized DietPi system, effective control and tuning of system and application services is crucial for maintaining top performance, stability, and responsiveness. The `dietpi-services` utility empowers you to manage the lifecycle, autostart behavior, and resource allocation of all installed services with precision. Whether you're overseeing core system daemons, media servers, or custom applications, this tool provides a single interface to prioritize and regulate service behavior on your device.
+
+This guide explains how to use `dietpi-services` to control your services and optimize system performance through scheduling and priority adjustments.
+
+---
+
+## Understanding dietpi-services: Control at Your Fingertips
+
+`dietpi-services` functions as a comprehensive service manager designed specifically for DietPi. It integrates with both systemd and SysV init service architectures, applying controls that ensure system services start and stop in the right order, run with the appropriate priority, and are enabled or disabled according to your preferences. Beyond simple start/stop operations, it offers advanced capabilities to fine-tune CPU affinity, CPU and IO scheduling policies, and priorities for each service. 
+
+Using this tool, you can reduce resource contention, prevent service conflicts, and extend system longevity by carefully managing how your device allocates processing time and I/O bandwidth to various system components.
+
+---
+
+## Using dietpi-services to Manage System Services
+
+When you launch `dietpi-services` without arguments, it presents an interactive menu listing all recognized services. This includes essential system services, installed software daemons, and any user-added services you've configured. From here, you can:
+
+- Start, stop, or restart any individual or groups of services.
+- Enable or disable services for autostart during system boot.
+- Mask and unmask services to completely block or allow their execution.
+- Include or exclude services from automatic management by DietPi during tasks like software installation or system updates.
+
+Select any listed service to open detailed options for that service. This allows viewing its current state, editing its service files safely via systemd drop-in configs, and tuning process-level controls.
+
+---
+
+## Fine-Tune Service Performance with Process Tool Settings
+
+One of `dietpi-services`’ standout features is the ability to adjust how the system scheduler treats individual services:
+
+- **CPU Affinity:** Choose which CPU cores a service can run on. Limiting a service to specific cores can reduce CPU cache thrashing and improve performance for critical tasks.
+
+- **CPU Scheduling Policy:** Select the scheduling algorithm, such as 'fifo' (real-time FIFO), 'rr' (round-robin real-time), or 'other' (default). Real-time policies provide higher priority but must be used carefully.
+
+- **CPU Nice Value:** Adjust the priority affecting how the scheduler balances CPU time against other processes. A lower nice value means higher priority.
+
+- **CPU Scheduling Priority:** For real-time policies, this numeric value further refines priority levels.
+
+- **I/O Scheduling Class and Priority:** Controls how the I/O scheduler prioritizes disk and device access requests from the service. This can be vital for services with heavy disk I/O like media servers or databases.
+
+You can apply presets for convenience such as 'Highest Priority', 'High Priority', 'Low Priority', and 'Lowest Priority' which configure sensible CPU and I/O parameters for different use cases.
+
+---
+
+## Changing Service Modes and Inclusion Settings
+
+Within the service options, `dietpi-services` lets you adjust the autostart behavior:
+
+- **Enable:** The service will start automatically at boot.
+- **Disable:** The service will not start on boot but can be started manually.
+- **Mask:** The service is effectively blocked and cannot be started until unmasked.
+
+Moreover, DietPi can automatically start and stop services during processes like software installs and updates. You control this behavior via inclusion or exclusion settings for each service. Excluding a service prevents DietPi from manipulating it automatically, which is useful for services managed externally or requiring uninterrupted operation.
+
+---
+
+## Practical Steps to Manage Your Services
+
+<Steps>
+<Step title="Launching dietpi-services">
+Open a terminal on your DietPi device and run `dietpi-services` without arguments to enter the interactive service menu.
+</Step>
+<Step title="Browsing available services">
+Scroll through the list to find the service you want to manage. Included services show their enabled/disabled/masked state and current CPU affinity.
+</Step>
+<Step title="Selecting a service for detailed management">
+Highlight a service and press Enter to access its individual configuration menu with options for state, mode, inclusion/exclusion, status, editing, and process tool settings.
+</Step>
+<Step title="Adjusting service autostart mode">
+Choose "Mode" to enable, disable, or mask the service. Confirm your choice to apply.
+</Step>
+<Step title="Tuning process priorities">
+Select CPU affinity or scheduling policies through the interactive menus to optimize the service's resource usage. Use presets for quick configuration.
+</Step>
+<Step title="Saving and restarting services">
+After making changes, exit the service menu. You'll be prompted to restart affected services to apply new configurations.
+</Step>
+<Step title="Controlling services directly">
+Optionally, use commands like `dietpi-services start <service>`, `stop <service>`, or `restart <service>` from the command line for quick control.
+</Step>
+</Steps>
+
+---
+
+## Tips for Better Service Management
+
+For optimized system operation, consider these best practices when managing services:
+
+- Prefer restricting resource-intensive services to dedicated CPU cores to improve responsiveness for other tasks.
+- Use the "Mask" function cautiously, as masked services cannot be started unless explicitly unmasked.
+- Include only essential services in DietPi's automatic control to prevent conflicts with third-party service managers.
+- Regularly check service statuses via `dietpi-services status` to catch failures promptly.
+- Modify service drop-in files via the "Edit" menu rather than editing base service files to maintain clean update paths.
+
+---
+
+## Troubleshooting Common Issues
+
+If you encounter problems such as services failing to start or lagging performance:
+
+- Verify if the service is masked or disabled unintentionally.
+- Check if CPU affinity or scheduling settings are too restrictive or inappropriate for the service.
+- Use the status option in `dietpi-services` to review service logs and errors.
+- Confirm there are no conflicting services marked for control or exclusion.
+- Use system logs (`journalctl -u <service>`) for deeper diagnosis when necessary.
+
+If the system indicates a need to reload systemd after changes, confirm with `systemctl daemon-reload` or allow `dietpi-services` to handle it automatically.
+
+---
+
+For detailed software installation and configuration, see [Installing and Managing Software with dietpi-software](/guides/core-workflows/install-software), and for network or VPN related service considerations, refer to [Secure Networking: Setting Up a VPN Client](/guides/advanced-guides/vpn-setup).
+
+<Source url="https://github.com/MichaIng/DietPi" paths={[{"path": "dietpi/dietpi-services", "range": "1-734"}]} />

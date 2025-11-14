@@ -1,0 +1,79 @@
+---
+title: "DietPi Release Notes"
+description: "A chronological overview of all DietPi releases, summarizing new features, enhancements, and fixes. Each entry focuses on practical impacts, giving users immediate insight into the value and implications of every update."
+---
+
+## DietPi Release Notes
+
+This page chronicles the evolution of DietPi through its releases, offering a clear, user-focused summary of each update’s practical benefits and implications. Users gain insight into new features, important improvements, and fixes, enabling informed decisions on when to update and what to expect. The notes emphasize real-world impacts, helping maintain an efficient and secure system tailored to diverse hardware.
+
+---
+
+### Recent Release Highlights
+
+DietPi continues to refine its update system and overall stability with the latest releases. Noteworthy enhancements include the expansion of incremental patching to smoothly transition users through version updates, ensuring configurations and software remain in sync without manual intervention. Live patches now efficiently fix minor bugs for the current version without a full system update. Updates to the update workflow itself streamline user experience by offering automated branch migration when Debian or DietPi versions fall below supported thresholds, enhancing compatibility and reducing update failures.
+
+Moreover, the update tool has been fortified to check network connectivity and synchronize system clocks before proceeding, avoiding issues caused by internet or time discrepancies. The interactive update menu has been enhanced to present clearer options including viewing changelogs and backing up the system before applying updates, promoting safer upgrade procedures tailored to user readiness.
+
+These refinements reflect DietPi’s commitment to balancing user control with automation, ensuring that updates are seamless, reliable, and respectful of custom user configurations.
+
+### Important Breaking Changes and Migration Notes
+
+This changelog does not list explicit breaking API or configuration changes but introduces a critical automated branch migration mechanism. When updating, if the user’s installed DietPi or Debian version is too low for the desired update branch, the updater automatically switches to a compatible legacy Git branch to preserve system integrity and update success.
+
+Users should be aware that in scenarios with significantly outdated system versions, the update process may shift branches transparently. This ensures continued support but could affect update paths and feature availability. It is recommended to monitor update logs for any notifications about branch migration during your upgrade.
+
+<Source url="https://github.com/MichaIng/DietPi" paths={[{"path": ".update/version", "range": "1-68"}]} />
+
+### Notable Fixes and Improvements
+
+- Expanded incremental patch system adds fine-grained, version-specific updates that run immediately after major update steps, maintaining system coherence.
+- Live patches feature introduced, allowing selective application of minor fixes without full version updates, reducing update overhead and downtime.
+- Update script now robustly verifies user permissions, root filesystem writability, network connectivity, and time synchronization before proceeding.
+- Enhanced user prompts inform about potential risks of custom Linux configuration modifications outside DietPi tooling, fostering awareness and caution.
+- Improved downgrade and reapply update options provide users flexibility to reissue previous patches, aiding in troubleshooting and advanced update scenarios.
+- Package management optimizations better handle stale or obsolete software states by automatically managing reinstallation queues.
+- Automatic removal of conflicting or obsolete software install states prevents errors and streamlines package database hygiene.
+
+<Source url="https://github.com/MichaIng/DietPi" paths={[{"path": "dietpi/dietpi-update", "range": "58-320"}, {"path": ".update/patches", "range": "1-450"}]} />
+
+### Release History (Brief)
+
+- **v9.18**: Added live patch management; automated branch migration for older Debian/DietPi versions; enhanced update pre-patch verification and interactive update menu.
+- **v9.17**: Applied KMS/DRM activation for LightDM on newer Debian; fixed deprecated symlink and repository cleaning; upgraded kernel package handling.
+- **v9.16**: Introduced fallback mechanisms for serial console disabling, Raspberry Pi firmware migration; updated DietPi APT repository handling.
+- **v9.15 and earlier**: Multiple incremental patches improving hardware compatibility, software renames (e.g., vaultwarden), package key updates, removal of obsolete software.
+
+For detailed entries, see the full changelog on the [DietPi GitHub repository](https://github.com/MichaIng/DietPi/tree/main/.update).
+
+---
+
+### Using the Update System Effectively
+
+Users benefit most by ensuring their network connection is stable and system time is synchronized prior to running `dietpi-update`. Backup creation via the update menu is highly recommended before applying major updates, leveraging the integrated option to create system snapshots.
+
+The update mechanism offers both interactive and non-interactive modes, empowering scriptable upgrades or guided user prompts. In case of unexpected failures, options to reapply the latest patch or downgrade subversions exist, providing recovery pathways.
+
+Live patches serve as a temporary bandage for critical bugs without requiring whole-version upgrades — ideal for users seeking the latest fixes with minimal disruption.
+
+After upgrading, a reboot is often recommended to apply kernel and critical service changes fully, with the system offering reboot prompts and automated reboot in first-run scenarios.
+
+For more information, including detailed update procedures and troubleshooting, consult the [Keeping DietPi Up-to-Date guide](/guides/core-workflows/update-dietpi).
+
+---
+
+### Troubleshooting
+
+Common update failures relate to network connectivity, insufficient free disk space, or too old base versions of DietPi or Debian. The update script checks these prerequisites upfront and highlights them to users.
+
+If the update indicates branch migration, users should check their `/boot/dietpi.txt` configuration to verify branch names and be aware of fallback branches used for compatibility.
+
+Logs are saved at `/var/tmp/dietpi/logs/dietpi-update.log` for detailed error diagnostics.
+
+If any patch or pre-patch fails, re-running the update after resolving issues is advised. Potential issues with custom Linux configuration files outside DietPi’s tooling may cause update conflicts and require manual inspection.
+
+---
+
+For more about managing software, backups, and system services, see the complementary guides on [Software Installation with dietpi-software](/guides/core-workflows/install-software), [Backing Up and Restoring Your DietPi System](/guides/system-maintenance/backup-restore), and [Controlling Services with dietpi-services](/guides/advanced-guides/service-management).
+
+<Source url="https://github.com/MichaIng/DietPi" branch="main" paths={[{"path": "dietpi/dietpi-update", "range": "50-250"}]} />

@@ -1,0 +1,81 @@
+---
+title: "Upgrade & Migration Guide"
+description: "Step-by-step instructions for a successful, interruption-free upgrade between DietPi versions. This page emphasizes common migration tasks, pre-upgrade checks, and best practices to help users avoid pitfalls and downtime."
+---
+
+## Upgrade & Migration Guide
+
+Upgrading your DietPi system to a newer version is a critical task that should be approached thoughtfully to avoid interruptions and potential data loss. This guide provides clear, step-by-step instructions that help you execute a successful, interruption-free upgrade between DietPi versions. It emphasizes essential pre-upgrade checks, common migration tasks, and best practices tailored to your system’s hardware and software configuration.
+
+### Preparing for a Smooth Upgrade
+
+Before initiating any upgrade, ensure that your current system is healthy and stable. Begin by verifying that your root filesystem is mounted read-write, as upgrades cannot proceed if the filesystem is read-only. Also, confirm network connectivity and that system time is correctly synchronized to avoid failed downloads or package mismanagement.
+
+DietPi provides a convenient automated backup utility, **DietPi-Backup**, which can create restore points of your system to protect against upgrade missteps. It is strongly recommended to create a backup before proceeding. This safeguard enables you to recover your system in case unexpected issues arise during the upgrade process.
+
+Another important preemptive action is identifying any incompatible software titles. Some installed applications may not support the target Debian or DietPi version. DietPi’s upgrade scripts automatically detect such software and alert you with a list of titles that require your attention. You can decide to uninstall or postpone upgrading these software components to prevent conflicts.
+
+### Executing the Upgrade
+
+DietPi's upgrade mechanism uses upgrade scripts corresponding to your current and target versions. These scripts handle migrations such as configuration changes, package pinning, removal of obsolete packages, and hardware compatibility adaptations.
+
+The upgrade process typically includes the following key phases:
+
+- **Pre-Patching**: Scripts run preparation patches before package updates, like removing deprecated rules or migrating hardware identifiers.
+
+- **Package Upgrade**: The system updates its APT package lists and applies upgrades, including kernel updates and new packages.
+
+- **Core Software Update**: DietPi system files and scripts are replaced and updated by downloading the latest code archive from the configured GitHub branch and applying incremental patches.
+
+- **Post-Upgrade Migrations**: Additional migrations and software reinstalls occur to ensure compatibility, clean obsolete files, and apply configuration refinements.
+
+Throughout the upgrade, DietPi stops relevant services to prevent conflicts and restarts them once the update is complete. To prevent service disruptions, essential user services like SSH remain accessible or are restored swiftly.
+
+### Handling Changes and Conflicts
+
+Breaking changes or deprecated features may impact your environment during an upgrade. DietPi upgrade scripts detect such situations and provide remediation instructions.
+
+For example, changes in package repositories, renaming, or replacement of software packages trigger automated uninstall and reinstall steps.
+
+If kernel modules are upgraded, a system reboot is typically recommended or required. The upgrade scripts will prompt you accordingly to restart your device to complete the installation.
+
+Manual intervention may be necessary for some migrations, such as dealing with database migrations (e.g., PostgreSQL upgrades) or adjusting custom user data paths. DietPi provides clear notifications and instructions when these cases occur.
+
+### Best Practices and Tips
+
+To maximize success and minimize downtime, keep the following tips in mind:
+
+- Always ensure your device is connected to a stable power source during the upgrade to prevent interruptions.
+- Maintain a current backup using DietPi-Backup before any upgrade steps.
+- Read and understand the list of incompatible software reported before proceeding.
+- Reboot your system when prompted by the upgrade utilities to finalize kernel or critical package updates.
+- After upgrade completion, verify installed software and services function as expected.
+- For complex setups, review migration advice specific to your software stack (e.g., Nextcloud, Home Assistant).
+
+### Example Upgrade Workflow
+
+1. **Check system readiness:** Verify network, disk space, and root filesystem mount status.
+2. **Backup:** Use `dietpi-backup` to create a restore point.
+3. **Detect incompatible software:** Review and decide on any required removals or postponements.
+4. **Run upgrade script:** Execute the appropriate DietPi upgrade helper script for your current Debian version (e.g., `dietpi-bookworm-upgrade`, `dietpi-trixie-upgrade`).
+5. **Follow prompts:** Respond to on-screen messages and input requests as needed.
+6. **Reboot if required:** Complete kernel and driver updates.
+7. **Post-upgrade migrations:** Allow automated software reinstalls and configuration updates to run.
+8. **Verify system status:** Confirm services are running and software versions updated.
+
+### Troubleshooting Common Upgrade Issues
+
+If you encounter problems, consider these steps:
+
+- Review log files located in `/var/tmp/dietpi/logs/dietpi-update.log` for errors during upgrade.
+- Use the DietPi forums or GitHub issues page for community help and developer support.
+- In case of failed upgrades, use your backup created before the update to restore a known good system state.
+- Check permissions and disk space if package installations fail.
+
+For details on any specific migration scripts or patches applied during upgrades, consult the incremental patch files and version logs included in the DietPi update process.
+
+---
+
+For further reading and detailed management of installed software after upgrade, refer to the [dietpi-software guide](/guides/core-workflows/install-software) and for general update procedures, see [keeping DietPi up-to-date](/guides/core-workflows/update-dietpi).
+
+<Source url="https://github.com/MichaIng/DietPi" paths={[{"path": ".meta/dietpi-bookworm-upgrade", "range": "1-161"},{"path": ".meta/dietpi-trixie-upgrade", "range": "1-160"},{"path": ".update/patches", "range": "1-1358"}]} />

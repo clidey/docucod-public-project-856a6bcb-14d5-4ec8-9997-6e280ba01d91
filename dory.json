@@ -1,0 +1,142 @@
+{
+  "background": {
+    "decoration": "gradient"
+  },
+  "colors": {
+    "dark": "#1E3A8A",
+    "light": "#60A5FA",
+    "primary": "#60A5FA"
+  },
+  "favicon": "/favicon.svg",
+  "fonts": {
+    "family": "Montserrat",
+    "format": "woff2",
+    "source": "https://fonts.gstatic.com/s/googlesansflex/v5/t5sJIQcYNIWbFgDgAAzZ34auoVyXkJCOvp3SFWJbN5hF8Ju1x6sKCyp0l9sI40swNJwGpVd4AZzz0v6lJ4qFXNZhGjLvDSkV4USKMo6qQzwliVdHAy9jxTDHg_ugnAakpwGc-cxgUqDCIUI.woff2"
+  },
+  "icons": {
+    "library": "fontawesome"
+  },
+  "logo": {
+    "dark": "./logo/logo.svg",
+    "light": "./logo/logo.svg"
+  },
+  "name": "DietPi",
+  "navigation": {
+    "tabs": [
+      {
+        "groups": [
+          {
+            "group": "Product Introduction \u0026 Value",
+            "pages": [
+              "overview/product-intro-value/what-is-dietpi",
+              "overview/product-intro-value/why-use-dietpi",
+              "overview/product-intro-value/target-audience-use-cases"
+            ]
+          },
+          {
+            "group": "DietPi Architecture \u0026 System Concepts",
+            "pages": [
+              "overview/dietpi-architecture/system-architecture",
+              "overview/dietpi-architecture/core-concepts-terminology",
+              "overview/dietpi-architecture/integration-and-compatibility"
+            ]
+          },
+          {
+            "group": "Quick Feature Overview",
+            "pages": [
+              "overview/features-summary/dietpi-key-features"
+            ]
+          }
+        ],
+        "tab": "Overview"
+      },
+      {
+        "groups": [
+          {
+            "group": "Introduction \u0026 Prerequisites",
+            "pages": [
+              "getting_started/introduction_prerequisites/about_dietpi_and_value",
+              "getting_started/introduction_prerequisites/system_requirements"
+            ]
+          },
+          {
+            "group": "Installation \u0026 Initial Setup",
+            "pages": [
+              "getting_started/installation_setup/downloading_image",
+              "getting_started/installation_setup/installing_flashing_device",
+              "getting_started/installation_setup/first_boot_initial_config"
+            ]
+          },
+          {
+            "group": "First Use \u0026 Core Functionality",
+            "pages": [
+              "getting_started/core_usage_and_validation/logging_in_exploring_ui",
+              "getting_started/core_usage_and_validation/installing_first_software",
+              "getting_started/core_usage_and_validation/quick_system_check"
+            ]
+          },
+          {
+            "group": "Troubleshooting \u0026 Common Issues",
+            "pages": [
+              "getting_started/troubleshooting_faq/boot_network_issues",
+              "getting_started/troubleshooting_faq/resetting_and_reinstalling",
+              "getting_started/troubleshooting_faq/where_to_get_help"
+            ]
+          }
+        ],
+        "tab": "Getting Started"
+      },
+      {
+        "groups": [
+          {
+            "group": "Essential Workflows",
+            "pages": [
+              "guides/core-workflows/install-software",
+              "guides/core-workflows/configure-system",
+              "guides/core-workflows/update-dietpi"
+            ]
+          },
+          {
+            "group": "System Maintenance and Automation",
+            "pages": [
+              "guides/system-maintenance/backup-restore",
+              "guides/system-maintenance/clean-optimize",
+              "guides/system-maintenance/automation-and-autostart-scripts"
+            ]
+          },
+          {
+            "group": "Advanced Scenarios and Networking",
+            "pages": [
+              "guides/advanced-guides/vpn-setup",
+              "guides/advanced-guides/service-management"
+            ]
+          }
+        ],
+        "tab": "Guides"
+      },
+      {
+        "groups": [
+          {
+            "group": "Version History \u0026 Release Notes",
+            "pages": [
+              "changelog/release-history/dietpi-release-notes",
+              "changelog/release-history/release-highlights"
+            ]
+          },
+          {
+            "group": "Upgrade \u0026 Migration Guidance",
+            "pages": [
+              "changelog/migration-guides/breaking-changes-deprecations",
+              "changelog/migration-guides/upgrade-instructions"
+            ]
+          }
+        ],
+        "tab": "Changelog"
+      }
+    ]
+  },
+  "styling": {
+    "codeblocks": "dark",
+    "eyebrows": "breadcrumbs"
+  }
+}

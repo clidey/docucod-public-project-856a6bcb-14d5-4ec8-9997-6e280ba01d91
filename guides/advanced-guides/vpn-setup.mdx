@@ -1,0 +1,119 @@
+---
+title: "Secure Networking: Setting Up a VPN Client"
+description: "Detailed guide for configuring and managing VPN connections with dietpi-vpn. Includes provider-specific setup, autostart configuration, firewall rules for killswitch, and monitoring connection health."
+---
+
+# Secure Networking: Setting Up a VPN Client
+
+Configuring a VPN client is a crucial step to enhance your DietPi system’s security and privacy by encrypting your Internet traffic. This guide walks you through using the `dietpi-vpn` tool—a user-friendly interface and management script tailored to set up, customize, and maintain VPN connections on your DietPi device, specifically leveraging OpenVPN.
+
+You will learn how to configure provider-specific setups, manage autostart options to connect on boot, enforce a killswitch for traffic protection, and monitor VPN connection health. The process is suited for users familiar with basic networking concepts and command-line interaction. Typical configuration takes about 15–30 minutes.
+
+---
+
+## Preparing Your System for VPN Setup
+
+Before starting, ensure your DietPi system has reliable network connectivity, and `openvpn` is installed or available. The `dietpi-vpn` script uses systemd to control the VPN client service and expects your system to be running these components. If you’re using a specific VPN provider such as NordVPN, ProtonVPN, IPVanish, or Private Internet Access (PIA), obtain your login credentials and, where applicable, download the provider’s OpenVPN configuration files.
+
+VPN connection configurations and credentials are stored securely with strict file permissions under `/var/lib/dietpi/dietpi-vpn/` and `/etc/openvpn/`. The VPN client interface adapts automatically to these files.
+
+By default, dietpi-vpn supports a selection of popular VPN providers with canned configurations, or allows custom `.ovpn` files for other providers.
+
+<Source url="https://github.com/MichaIng/DietPi" branch="main" paths={[{"path": "dietpi/dietpi-vpn", "range": "1-270"},{"path": "rootfs/etc/systemd/system/dietpi-vpn.service", "range": "1-24"}]} />
+
+---
+
+## Configuring VPN with dietpi-vpn
+
+When you run `dietpi-vpn` without parameters, it launches an interactive menu that guides you through the entire configuration and management workflow.
+
+You start by selecting your VPN provider from the list: NordVPN, ProtonVPN, IPVanish, PIA, or a Custom `.ovpn` file. The tool then downloads or prompts for the provider-specific server list and config templates as needed.
+
+For providers like ProtonVPN, the script fetches the latest server list and downloads an `.ovpn` template, which is dynamically customized with your selected server, protocol (UDP/TCP), and credentials.
+
+If you choose a custom VPN configuration, you will browse your filesystem to select your `.ovpn` file. The script parses the `.ovpn` file to extract necessary details such as the remote server address, port, and protocol.
+
+Next, enter your VPN username and password. For ProtonVPN users, note that OpenVPN-specific credentials are used, which are different from your ProtonVPN web login and can be retrieved from your ProtonVPN account.
+
+You can configure the connection protocol to UDP or TCP to suit your network’s characteristics (UDP is generally preferred for speed).
+
+Additionally, the menu lets you enable or disable VPN autostart at boot, ensuring your system connects automatically.
+
+---
+
+## Enabling and Managing the VPN Killswitch
+
+A killswitch is vital to prevent any network traffic from leaking outside the encrypted VPN tunnel, especially if the VPN connection drops unexpectedly.
+
+Within dietpi-vpn, enabling the killswitch creates and enforces strict iptables firewall rules stored in `/var/lib/dietpi/dietpi-vpn/killswitch.rules`. These rules drop all traffic except:
+
+- Localhost traffic
+- Traffic over the VPN interface (`tun0`)
+- LAN subnet traffic (RFC1918 IP ranges)
+- VPN server IP, port, and protocol (allowing connection to the VPN server itself)
+- SSH on TCP port 22, allowing remote management over the VPN or LAN.
+
+The script generates helper scripts that apply or remove these rules automatically when the VPN connects or disconnects, also disabling IPv6 to prevent leaks since IPv6 is more complex to secure in some VPN contexts.
+
+Should you need to customize traffic allowed during VPN connection, `dietpi-vpn` supports adding custom scripts that run post-connection or pre-disconnection.
+
+Use the killswitch judiciously, since improper rules may block legitimate traffic if not configured properly.
+
+---
+
+## Monitoring, Testing, and Troubleshooting VPN Connections
+
+Check your VPN connection status anytime by running:
+
+```bash
+dietpi-vpn status
+```
+
+The output indicates whether you are connected and shows traffic statistics (megabytes sent and received).
+
+If the connection fails or times out, the script alerts you and stops the VPN service. Common issues typically include incorrect credentials, inaccessible server addresses, or network/firewall blocking.
+
+When a connection fails:
+
+- Verify credentials and server selection.
+- Check system logs with:
+
+```bash
+systemctl -l status dietpi-vpn
+```
+
+- Ensure `openvpn` is installed and the network is available.
+
+- Confirm firewall or other security settings are not blocking VPN ports (commonly UDP 1194).
+
+The menu offers options to reset and remove all VPN configs safely, allowing you to start fresh if things go wrong.
+
+---
+
+## Automating VPN Connection on Boot
+
+With autostart enabled in the menu, the VPN client runs as a systemd service (`dietpi-vpn.service`), configured to start after the network is online. This ensures your VPN connection is reliably established on boot without user interaction.
+
+The service uses the client OpenVPN config located at `/etc/openvpn/client.ovpn` and includes custom up/down scripts to manage firewall rules and IPv6 setting changes.
+
+To manually control VPN connection via systemd, use:
+
+```bash
+sudo systemctl start dietpi-vpn    # Connect VPN
+sudo systemctl stop dietpi-vpn     # Disconnect VPN
+sudo systemctl status dietpi-vpn   # Check status
+```
+
+Disabling autostart will stop the service from starting at boot, but you can manually connect when needed.
+
+<Tip>
+For persistent VPN security, always enable the killswitch especially when you rely on autostart to prevent unencrypted traffic from leaking.
+</Tip>
+
+---
+
+By following this guide, you will be able to securely configure, manage, and monitor VPN connections on your DietPi system, thus enhancing privacy and security effectively.
+
+For additional advanced network setups, consider exploring related topics such as VPN servers with PiVPN or WireGuard in the DietPi documentation.
+
+[Back to Guides Home](/guides/advanced-guides/), [DietPi-Software Installation Guide](/guides/core-workflows/install-software), [DietPi Services Management](/guides/advanced-guides/service-management)

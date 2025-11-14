@@ -1,0 +1,104 @@
+---
+title: "First Boot and Basic Configuration"
+description: "What to expect the first time you power on DietPi: system initialization process, guided setup screens, and essential configuration tasks (e.g., network, user credentials). Tips for smooth onboarding."
+---
+
+## What to Expect on Your First Boot
+
+When you power on DietPi for the very first time after flashing the image, the system embarks on a carefully orchestrated initialization process designed to configure essential settings and prepare your device for use. This involves a sequence of automated steps and guided setup screens that streamline configuring network interfaces, user credentials, time and locale settings, as well as hardware-specific adjustments. Understanding this flow helps you anticipate what you will encounter and ensures a smooth introduction to your optimized DietPi system.
+
+Unlike generic Linux distributions, DietPi automates these tasks through tailored scripts and services triggered during early boot stages, reducing manual intervention while allowing user choices when necessary. It balances automation with simplicity, guiding you through critical parameters with prompts or applying defaults when running in unattended mode.
+
+
+## System Initialization and Guided Setup Flow
+
+Upon initial power-on, DietPi executes a series of systemd-managed services that sequence the boot process into preboot, first boot, and postboot stages. The **preboot service** collects hardware information and applies system-wide CPU and hardware optimizations, ensuring the base system is ready before network or software configuration.
+
+Shortly after, the **firstboot service** activates a dedicated script responsible for applying your first run settings based on saved configuration or defaults embedded in the `dietpi.txt` file. This script performs tasks including setting system hostname, applying CPU clock speeds (especially on Raspberry Pi models with model-specific safe defaults or overclocking profiles), enabling swap space, and configuring essential services such as SSH.
+
+Next, network interfaces are set up according to user input or automated instructions. DietPi detects available wired and wireless hardware, applies either DHCP or static IP addressing, configures wireless SSIDs and passphrases if applicable, and enables IPv6 settings based on your preferences. The guided setup screens walk you through these network options if running interactively.
+
+User credentials, particularly root and default 'dietpi' user passwords, are initialized with your chosen or default passwords and checked to encourage secure authentication configurations. In the event of automated setup, password prompts are skipped but validation is enforced at login.
+
+Finally, time zone and locale settings are applied, customizing the system's regional behavior, and optionally any preconfigured custom scripts are executed to finalize your setup.
+
+Throughout this flow, DietPi provides clear feedback and logs actions, with failures gracefully handled by prompting you with options to take over or retry, ensuring your first run does not leave the system in a stuck or incomplete state.
+
+<Source url="https://github.com/MichaIng/DietPi" paths={[{"path": "rootfs/etc/systemd/system/dietpi-firstboot.service"},{"path": "rootfs/var/lib/dietpi/services/dietpi-firstboot.bash"},{"path": "dietpi/dietpi-login"},{"path": "dietpi/postboot"}]} />
+
+
+## Essential Configuration Tasks in First Boot
+
+The critical configurations addressed upon first boot cover the fundamental system identity and connection parameters that impact every later interaction:
+
+**Hostname and User Credentials:** The system sets its hostname as specified in your `dietpi.txt` configuration or defaults to a generic name. It ensures that root and DietPi user passwords are assigned and secure, with password checking triggered on login if the default password is retained.
+
+**CPU and Hardware Settings:** On supported hardware like Raspberry Pi, DietPi automatically applies optimal or safe overclocking profiles tailored for each model. This conserves stability while improving performance. The setup also configures serial console parameters and disables unneeded modules if running in headless or container environments.
+
+**Network Configuration:** DietPi identifies Ethernet and WiFi interfaces dynamically and configures them based on your preferences. It supports enabling Ethernet, WiFi, or both, handles DHCP or static IP assignment, applies WiFi credentials stored in `dietpi.txt`, and sets WiFi country codes automatically. If IPv6 is enabled, it is configured alongside.
+
+**Time Zone and Locale:** The system synchronizes time settings, applying your chosen time zone. Locale settings determine language and regional formatting, adjusted automatically from your selections or defaults.
+
+**Swap and System Services:** A swap file is created and activated to improve memory management on low-resource devices. Relevant services like `systemd-timesyncd` are enabled to keep the system clock accurate.
+
+These configuration steps are executed largely automatically but include prompts and options when run on an interactive console to accommodate a broad range of user skills and deployment scenarios.
+
+<Source url="https://github.com/MichaIng/DietPi" paths={[{"path": "rootfs/var/lib/dietpi/services/dietpi-firstboot.bash"}]} />
+
+
+## Tips for a Smooth Onboarding Experience
+
+While DietPi minimizes setup friction, your first boot can be even smoother if you consider the following practical tips:
+
+- **Prepare your `dietpi.txt` configuration file** ahead of time if you desire automated and unattended installations. This file allows predefining network settings, passwords, locales, and other parameters so the system applies them without prompting.
+
+- **Use a wired Ethernet connection first**, when possible. Wired networking avoids common WiFi configuration issues such as incorrect credentials or weak signals during initial setup.
+
+- **Monitor the boot process via a direct console or serial connection**, especially for embedded devices, to see guided questions and status messages without delay or SSH complexities.
+
+- **If you encounter issues in first run setup** — such as locked sessions or errors — follow on-screen prompts to take control, retry, or fall back to a manual login. Logs are available in `/var/tmp/dietpi/logs/dietpi-firstrun-setup.log` to assist troubleshooting.
+
+- **Avoid interrupting the first run update and software installation steps**, as premature reboots may result in incomplete installations requiring manual intervention.
+
+By understanding these points, you ensure your first interaction with DietPi is efficient and sets a strong foundation for customizing and expanding your system.
+
+<Source url="https://github.com/MichaIng/DietPi" paths={[{"path": "dietpi/dietpi-login"},{"path": "dietpi/postboot"}]} />
+
+
+## Verifying a Successful First Boot
+
+After the first boot and initial configuration sequence completes, you can verify success by checking that the system:
+
+- Presents the DietPi login banner with correct hostname and login prompt.
+- Allows login with your configured root or DietPi user accounts using the password you specified or changed during setup.
+- Applies your chosen network settings correctly; for example, use `ip addr` or `ifconfig` to confirm IP addresses match expectations.
+- Has swap space enabled (check with `swapon --show`).
+- Uses the correct time zone (check `timedatectl` or system time).
+
+If the system boots to a prompt without errors and you can perform these checks, your initial setup was successful.
+
+<Tip>
+To inspect detailed first run setup logs, review the file `/var/tmp/dietpi/logs/dietpi-firstrun-setup.log` for any warnings or errors.
+</Tip>
+
+<Check>
+Run the following command after login to verify the network interface and IP address:
+
+```bash
+ip addr show
+```
+
+Expected output includes your configured Ethernet (`eth0`) or WiFi (`wlan0`) interface active with an IP address assigned.
+</Check>
+
+
+## Where to Go from Here
+
+After completing the first boot and essential configuration, you are ready to explore and customize your DietPi system further. Key next steps include installing software through the [dietpi-software](/guides/core-workflows/install-software) tool, adjusting system settings via [dietpi-config](/guides/core-workflows/configure-system), and keeping your system up-to-date with [dietpi-update](/guides/core-workflows/update-dietpi).
+
+If you encounter problems related to boot or network configuration, consult [Troubleshooting Boot and Network Problems](/getting_started/troubleshooting_faq/boot_network_issues) for targeted help.
+
+This documentation fits within the broader context of DietPi’s streamlined onboarding strategy, focusing on hands-on usability with minimal technical barriers.
+
+
+---

@@ -1,0 +1,98 @@
+---
+title: "Cleaning and Optimizing Your System"
+description: "Step-by-step guide to freeing space and optimizing performance with dietpi-cleaner. Covers simulating, running, and configuring cleanup tasks, including practical decision points and how to avoid accidental data loss."
+---
+
+## Cleaning and Optimizing Your System with dietpi-cleaner
+
+Maintaining a lean and efficient system is vital for getting the best performance out of your DietPi installation. The `dietpi-cleaner` tool is designed to help you reclaim disk space and optimize system resources by removing unnecessary files and packages safely. This guide walks you through how to configure, simulate, execute, and customize cleanup tasks, ensuring you have full control before making any irreversible changes.
+
+### Understanding dietpi-cleaner and Its Benefits
+
+`dietpi-cleaner` helps you systematically remove different types of 'junk' from your system—such as developer packages, manual pages, log files, apt caches, and user-specified files—freeing up valuable storage space. Rather than blindly deleting files, it offers a controlled environment where you can preview what will be cleaned, enabling informed decisions that avoid accidental data loss.
+
+When you launch the tool without arguments, it presents an interactive menu where you can select specific cleaners to enable or disable. You can run simulations to see which files would be affected without modifying the system, allowing you to review the impact thoroughly before executing the actual cleaning process.
+
+### Preparing to Use dietpi-cleaner
+
+Before running any cleaning operations, ensure that you have:
+
+- Backed up important data. While `dietpi-cleaner` takes care to avoid critical files, unintended removals can happen if configurations are not reviewed.
+- Reviewed the cleaner settings, particularly the 'Files' cleaner where you specify custom file patterns to remove.
+- Considered stopping critical services if cleaning includes files they use, to prevent locked or incomplete deletions.
+
+This preparation aligns with DietPi's commitment to automation balanced with user control and safety.<Source url="https://github.com/MichaIng/DietPi" paths={[{"path": "dietpi/dietpi-cleaner", "range": "1-300"}]} />
+
+### Running dietpi-cleaner: Simulate and Execute Cleaning
+
+When you run `dietpi-cleaner` without parameters, the main menu appears, showing current root filesystem usage and the options:
+
+- **Help:** Provides a brief about the purpose and usage of the tool.
+- **Cleaners:** Enable or disable specific cleaners.
+- **Files:** Configure file matching rules for the 'Files' cleaner.
+- **Test:** Simulate enabled cleaners to preview their actions without making changes.
+- **Run:** Clean using enabled cleaners to free space.
+
+To start, enable the cleaners that target areas you want to clean. For example, if you often install software development packages but no longer need them, enabling the 'Dev packages' cleaner is recommended.
+
+Use 'Test' to run a dry execution that lists, but does not delete, the files targeted by active cleaners. This step is crucial in verifying that no important files are mistakenly matched, especially when using the custom 'Files' cleaner.
+
+Once satisfied with the simulation, select 'Run' to perform the actual cleaning. The process stops all DietPi-managed services to avoid conflicts and resumes them after completion, safely freeing disk space.
+
+You can also run non-interactive options:
+
+- `dietpi-cleaner 1` to run only the cleaners you have enabled (without menu prompts).
+- `dietpi-cleaner 2` to run all cleaners regardless of your enablement settings.
+
+These modes suit automated or scripted maintenance workflows.
+
+### Customizing File Scanning for Cleaner
+
+The 'Files' cleaner removes files matching your custom criteria. To use this feature effectively:
+
+- Access the 'Files' menu to edit `/boot/dietpi/.dietpi-cleaner_custom_files`. This file contains a list of filename patterns to match.
+- Each pattern can be a filename or filename extension, using wildcards as supported by the `find` command (for example, `*.tmp`, `Thumbs.db`, or `*cache*`).
+- Lines starting with `#` or blank lines are ignored.
+- You can toggle whether the scanning includes the `/mnt` directory, which typically holds mounted external drives.
+
+Make use of this flexibility to tailor cleanup to your system's unique usage and storage habits, but always run a test simulation before running the cleaner on these custom settings to avoid deleting critical files.
+
+### Safeguards and Best Practices
+
+While `dietpi-cleaner` automates cleanup, some cleaners may remove files that impact system or application functionality if used indiscriminately:
+
+- The 'Man pages' cleaner deletes offline documentation, which might cause apt upgrade errors in rare cases.
+- The 'Dev packages' cleaner targets development tools not required by other installed software, but ensure you do not need these for compiling or building software.
+- Clearing logs ensures disk space is reclaimed, but some applications may require log data for diagnostics.
+- Removing APT caches is usually safe, but if interrupted during an update or install process, it could affect package management.
+
+Always consider creating a system backup with `dietpi-backup` before extensive cleaning operations. Also, review your enabled cleaners regularly and adjust them based on current usage.
+
+<Tip>
+Regular use of `dietpi-cleaner` helps maintain system performance and disk health by removing unneeded files. Always prefer simulation ('Test') before cleaning to preview the impact.
+</Tip>
+
+### Troubleshooting Common Issues
+
+If you encounter problems while using `dietpi-cleaner`, consider the following tips:
+
+- **No cleaners enabled:** The tool will warn you if attempting to run 'Test' or 'Run' with no cleaners enabled. Go to the 'Cleaners' menu to select at least one.
+- **File matching list empty:** If no files are removed or shown during a 'Files' cleaner simulation, verify that your patterns in the custom files list are correct and uncommented.
+- **Cleaning fails due to locked files:** Some services hold files open. The tool manages service stopping and starting, but for custom services or unusual setups, you might need to stop services manually.
+- **Disk space not reclaimed as expected:** Some cleaning operations require system reboot or manual cleanup of processes holding deleted files.
+
+For extensive issues, check DietPi's forums or raise an issue on the GitHub repository.
+
+### Wrap-up and Next Steps
+
+`dietpi-cleaner` is a powerful maintenance companion to keep your DietPi system efficient and clutter-free. Begin with enabling the cleaners pertinent to your system, use the 'Test' simulation feature to preview changes, and proceed with running the cleaners when confident.
+
+To further optimize your system, explore complementary tools:
+
+- [`dietpi-software`](/guides/core-workflows/install-software) for managing software installations
+- [`dietpi-backup`](/guides/system-maintenance/backup-restore) for safeguarding your data
+- [`dietpi-update`](/guides/core-workflows/update-dietpi) to keep your system current and secure
+
+By integrating `dietpi-cleaner` into your routine, you ensure your system remains responsive and resource-efficient.
+
+<Source url="https://github.com/MichaIng/DietPi" paths={[{"path": "dietpi/dietpi-cleaner", "range": "1-300"}]} />

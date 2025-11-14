@@ -1,0 +1,96 @@
+---
+title: "Installing Your First Application"
+description: "A guided first experience with 'dietpi-software': find, install, and run an optimized application from DietPi’s rich catalog. Covers validation of successful install and tips for exploring more apps."
+---
+
+## Getting Started with dietpi-software: Installing Your First Application
+
+DietPi offers a streamlined, optimized software installation system designed specifically for lightweight and resource-efficient devices. The `dietpi-software` utility provides access to an extensive catalog of pre-configured applications, each optimized for your hardware. This guide walks you through the first experience with `dietpi-software`, from discovering and installing your desired application to verifying a successful installation and exploring further possibilities.
+
+### Before You Begin
+
+To effectively use the `dietpi-software` menu system, ensure your DietPi installation has completed its initial setup and that you have root access. The software installer relies on a functional network connection and the base system’s package management to fetch and configure your chosen applications. It’s ideal to have at least basic hardware compatibility verified; for a detailed overview, see the [Supported Hardware and Requirements](/getting_started/introduction_prerequisites/system_requirements) page. Additionally, confirm your DietPi installation is updated using `dietpi-update`.
+
+### Using dietpi-software: Interactive Installation
+
+By executing `dietpi-software` without additional parameters, you launch an interactive menu that organizes software by category, allowing you to browse or search for the applications you want. The menu clearly highlights the state of each software title—whether it is installed, pending installation, or not installed—enabling informed selections.
+
+<Steps>
+<Step title="Open dietpi-software">
+Run the following command in your terminal:
+```bash
+dietpi-software
+```
+This displays a whiptail-based menu listing options such as ‘Browse Software’, ‘Search Software’, ‘Install’, and ‘Uninstall’. Navigate using arrow keys and confirm selections with Enter.
+</Step>
+<Step title="Search or Browse for Software">
+Select ‘Search Software’ to quickly find titles using keywords or ‘Browse Software’ to view the catalog by categories like Media Systems, Gaming, Cloud & Backup, and more. Use the spacebar to select or deselect applications for installation or removal.
+</Step>
+<Step title="Confirm and Review Choices">
+After selecting your desired software, confirm your choices. The system will automatically resolve dependencies (e.g., required desktops or webservers) and warn you about any conflicts.
+</Step>
+<Step title="Start Installation">
+Choose the ‘Install’ option in the main menu to begin the process. `dietpi-software` will handle downloading, installing, configuring, and enabling the services for the selected software.
+</Step>
+<Step title="Wait for Completion">
+Installation progress with detailed messages will appear in the terminal. Larger applications or those requiring compilation may take several minutes.
+</Step>
+</Steps>
+
+### Automated Software Installation: CLI Commands
+
+Advanced users can utilize `dietpi-software` via command line parameters for unattended or scripted installs:
+
+- `dietpi-software install <software_id>...` will install one or more applications by their IDs.
+- `dietpi-software uninstall <software_id>...` removes specified applications.
+- `dietpi-software reinstall <software_id>...` reinstalls applications to refresh or repair them.
+- `dietpi-software list [--machine-readable]` lists all software with IDs, descriptions, and install status.
+
+The software IDs correspond to those shown in the interactive menus or via the `list` command.
+
+### Configuration During Installation
+
+`dietpi-software` automatically handles the configuration of dependencies such as webservers, databases, or desktop environments. For example, if you select a web-based application, you will be prompted to select or confirm which webserver and PHP version to use. The system injects optimized settings based on your hardware profile to ensure efficient performance.
+
+If certain applications need further configuration or user input, such as passwords or domain names, `dietpi-software` will prompt you during or after installation.
+
+### Validating a Successful Installation
+
+Once installation completes, check that the relevant service is active and enabled:
+
+```bash
+systemctl status <service-name>
+```
+
+For example, if you installed `Nextcloud`, verify its service is running:
+
+```bash
+systemctl status apache2
+systemctl status mariadb
+```
+
+You can also visit the web interface of web-based applications using the device’s IP address on the expected port.
+
+Additionally, `dietpi-software` updates a special file `/boot/dietpi/.installed` which tracks the install state of each software title.
+
+<Tip>
+If you encounter issues where a service fails to start, check system logs with:
+
+```
+journalctl -u <service-name>
+```
+
+and consult the tailored application documentation linked in the interactive menu or online documentation.
+</Tip>
+
+### Exploring More Apps and Next Steps
+
+Post-installation, you can revisit `dietpi-software` to add more applications, uninstall or reinstall software, or adjust system defaults like SSH server choice and logging setups. The flexibility extends to command-line automation, ideal for scripted mass installs or remote administration.
+
+For further learning and system maintenance, consider these next guides:
+
+- [Configuring System Settings with dietpi-config](/guides/core-workflows/configure-system) to tune your device’s hardware and network.
+- [Keeping DietPi Up-to-Date](/guides/core-workflows/update-dietpi) to ensure system security and feature currency.
+- [Backing Up and Restoring Your DietPi System](/guides/system-maintenance/backup-restore) to protect your data.
+
+<Source url="https://github.com/MichaIng/DietPi" paths={[{"path": "boot/dietpi-software", "range": "3-9278"}]} />

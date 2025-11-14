@@ -1,0 +1,54 @@
+---
+title: "What is DietPi?"
+description: "Overview of DietPi as an extremely lightweight, Debian-based operating system designed for SBCs and minimal setups. Summarizes its core goal of maximizing performance and resource efficiency while retaining user-friendliness through automated scripts and intelligent defaults."
+---
+
+## What is DietPi?
+
+DietPi is a highly streamlined, Debian-based operating system crafted specifically for single-board computers (SBCs) and systems that demand a minimalist setup. Its core mission is to deliver maximum performance and efficient use of system resources—particularly CPU and RAM—while maintaining an accessible user experience. DietPi achieves this balance by integrating intelligent defaults and a suite of automated scripts that simplify setup, management, and maintenance.
+
+This overview covers DietPi at a high level, focusing on what it enables you to accomplish with minimal overhead and how it fits within the ecosystem of lightweight, performance-optimized OS options. You'll discover why DietPi stands out for users seeking to unlock their SBC’s full potential without compromising ease of use.
+
+## Defining DietPi and Its Audience
+
+At its essence, DietPi is an extremely lightweight Linux distribution based on Debian, tailored for SBCs, virtual environments, and resource-constrained devices. Unlike generic Linux distros, it is optimized out-of-the-box to reduce unnecessary background services and decrease disk and memory footprints. Its automated scripts manage common tasks like CPU tuning, software installation, network setup, and system updates, allowing both novices and experts to focus on their projects rather than OS configuration.
+
+DietPi primarily targets enthusiasts, developers, and hobbyists who use SBCs such as Raspberry Pi, Odroid, and many others, but also suits users running minimal VMs or containers. Whether you're setting up a media server, home automation system, gaming station, or development environment, DietPi provides a foundation that optimizes performance without the complexity that heavier distributions bring.
+
+## Overview of DietPi’s Boot Process and System Initialization
+
+DietPi orchestrates its boot sequence into distinct stages that extend and customize Debian’s native startup. Upon powering on, the system runs the **preboot** service where hardware detection occurs and essential CPU settings are applied. This is embodied in the `/boot/dietpi/preboot` script, which dynamically adapts your system based on its specific hardware profile.
+
+Following this is the **postboot** phase, managed by the `/boot/dietpi/postboot` script executed by the `dietpi-postboot.service`. This part handles tasks such as initializing swap files, background network time synchronization, checking for updates, and executing optional user-supplied scripts placed in `/var/lib/dietpi/postboot.d`. These user scripts allow for one-shot customizations executed at the tail end of the boot process without delaying the login prompt excessively.
+
+The login experience itself is highly integrated with DietPi’s system, including first-run setup workflows and auto-start options tied with the `dietpi-login` script. Users benefit from contextual prompts and safeguards during initial system launch, such as automated update sequences and password checks, ensuring a smooth and secure start.
+
+<Tip>
+You can customize your boot experience by placing executable scripts in the `/var/lib/dietpi/postboot.d` directory, which will be run as root each boot after core services are initialized. Avoid long-running scripts in this folder to prevent delayed login prompts.
+</Tip>
+
+## DietPi in Real-World Use
+
+In practice, DietPi immediately shines when deployed on SBC hardware, taking complex manual tuning steps and automating them seamlessly. For example, during the very first boot of a pre-installed image, DietPi automatically creates a swap file optimized for your device, runs a quick survey script to tailor settings, and prepares the system for optimal operation. This thoughtful first-run experience reduces friction for users getting started.
+
+Regular boots see DietPi managing background maintenance tasks such as syncing time with network servers (`run_ntpd`), checking for updates asynchronously (`dietpi-update`), and displaying customizable login banners. This workflow exemplifies the quiet efficiency DietPi brings — all critical setup is done behind the scenes without overwhelming the user.
+
+Moreover, DietPi provides a suite of command-line utilities like `dietpi-software` for installing curated, ready-to-run applications configured for best performance and minimal resource use. Since services are carefully controlled, you avoid the bloat common in other distributions. For instance, media server setups using Kodi or Plex can be launched automatically, with the system tuned specifically for your SBC model's capabilities.
+
+```bash
+# Example: Running a user script on postboot
+sudo chmod +x /var/lib/dietpi/postboot.d/custom_setup.sh
+# This script will run on every boot after DietPi's postboot tasks
+```
+
+This example underscores how DietPi blends simplicity with power, offering flexible hooks and automation for common user scenarios.
+
+## Getting Started with DietPi
+
+Starting with DietPi involves downloading a tailored image for your supported hardware and flashing it to your storage device. Upon first boot, DietPi handles the bulk of heavy lifting through the firstboot and postboot services, configuring system settings swiftly without requiring user intervention unless desired.
+
+Expect the initial setup to include swap file creation, package updates, and hardware-specific configuration applied transparently through automated scripts. After this process, you'll be ready to explore DietPi's configuration menus (`dietpi-config`), install applications via `dietpi-software`, and leverage the system’s lightweight design to tailor your SBC environment.
+
+For a detailed walkthrough of installation and initial user steps, see the [Getting Started with DietPi](https://dietpi.com/docs/getting_started/introduction_prerequisites/about_dietpi_and_value) page.
+
+<Source url="https://github.com/MichaIng/DietPi" branch="main" paths={[{"path": "boot/dietpi/postboot", "range": "1-65"},{"path": "boot/dietpi/preboot", "range": "1-32"},{"path": "boot/dietpi/dietpi-login", "range": "1-195"},{"path": "var/lib/dietpi/services/dietpi-firstboot.bash", "range": "1-274"}]} />
