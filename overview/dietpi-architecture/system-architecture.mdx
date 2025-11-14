@@ -1,0 +1,79 @@
+---
+title: "System Architecture Overview"
+description: "An illustrative diagram and narration showing how DietPi layers its automation scripts atop a minimal Debian base, drives key workflows via modular bash scripts, and manages configuration, updates, and software deployment. Emphasizes the interplay between DietPi’s scripts, configs, and underlying OS."
+---
+
+## System Architecture Overview
+
+DietPi is designed as a streamlined and highly modular Debian-based operating system, seamlessly integrating a minimal core with powerful automation scripts to deliver optimized system performance for single-board computers and lightweight devices. This page illuminates the layered architecture that underpins DietPi, emphasizing how its foundational components interact to facilitate software management, configuration, and system updates, all orchestrated through custom Bash scripts.
+
+Understanding this architecture helps users appreciate the simplicity and control offered by DietPi's design. It clarifies how various scripts and services engage with the Debian base system to provide a consistent, user-friendly experience without sacrificing flexibility or transparency.
+
+## Core Components in DietPi's Layered Design
+
+At its heart, DietPi runs atop a minimal Debian base system, relying on the robust, mature foundation Debian offers. Over this, DietPi layers a set of carefully crafted automation Bash scripts and service units that extend system capabilities while maintaining lightweight resource usage.
+
+Key elements include:
+
+- **Preboot and Postboot Services:** DietPi hooks into the system's boot sequence using custom systemd services such as `dietpi-preboot.service` and `dietpi-postboot.service`. The preboot script runs early to collect hardware data and apply CPU optimizations before network services initialize, ensuring the system is primed for performance from the start. Conversely, postboot tasks like banner printing and service control are triggered once core boot processes complete.
+
+- **DietPi-Globals and Utilities:** Shared variables, helper functions, and environment setups are centralized in `dietpi-globals`, sourced by most DietPi scripts. This common foundation provides consistent access to hardware detection, logging functions, file system handling, and network verification, supporting all automation layers in a cohesive manner.
+
+- **DietPi-Software Management:** The `dietpi-software` script sits at the core of user workflows for installing and managing applications. It orchestrates dependency resolution, software selection interfaces, download and installation processes, and service management. Through an extensive software catalog implemented via curated Bash arrays, it offers users tailored, optimized packages aligned with their hardware capabilities. Installation steps include creating users, configuring services, and adjusting system dependencies seamlessly.
+
+- **DietPi-Update System:** Updates are handled via a dedicated update script that pulls version-controlled scripts and system modifications from the DietPi GitHub repository. This mechanism supports live patching and incremental upgrades, maintaining system integrity and freshness without heavy user intervention.
+
+- **User Interaction Interfaces:** DietPi leverages lightweight whiptail menus for configuration, installation, and troubleshooting. These menus interact with underlying scripts to execute commands and apply changes with clear success or error messaging, creating a smooth user experience even for complex tasks.
+
+This modular approach allows DietPi to maintain a low resource footprint while providing rich features and automated management capabilities.
+
+## High-Level Workflow of System Automation
+
+DietPi’s automation sequences can be conceptualized as a boot-driven, layered process wherein hardware detection, system configuration, user-driven software selection, and system updates occur in a carefully coordinated order.
+
+```mermaid
+flowchart TD
+    Debian["Minimal Debian Base"] -->|Boot| BootSequence["Systemd Boot Sequence"]
+    BootSequence --> DietPiPreBoot["dietpi-preboot.service"]
+    DietPiPreBoot --> HardwareConfig["Hardware Info & CPU Optimization"]
+    HardwareConfig --> NetworkInit["Network Initialization"]
+    NetworkInit --> DietPiPostBoot["dietpi-postboot.service"]
+    DietPiPostBoot --> SetupScripts["DietPi Automation Scripts"]
+    SetupScripts --> DietPiSoftware["dietpi-software - Software Management"]
+    SetupScripts --> DietPiUpdate["dietpi-update - System Update & Live Patching"]
+    DietPiSoftware --> UserInteractions["User Menus & Configurations"]
+    UserInteractions --> ServiceManagement["System Services Control"]
+    ServiceManagement --> SystemRunning["Optimized Running System"]
+
+    classDef serviceLayer fill:#c7f0d6,stroke:#2eb62c,stroke-width:2px;
+    class DietPiPreBoot,DietPiPostBoot,DietPiSoftware,DietPiUpdate serviceLayer;
+    class Debian BootSequence HardwareConfig NetworkInit SetupScripts UserInteractions ServiceManagement SystemRunning;
+```
+
+This flow clarifies how DietPi embeds itself into the Debian boot cycle and enhances it via scripted automation. Early hardware configuration ensures the system starts optimized, while the postboot services continue system setup. User-facing automation handles software management and system updates, enabling a consistent, reliable environment.
+
+<Source url="https://github.com/MichaIng/DietPi" paths={[{"path": "dietpi/dietpi-software", "range": "1-2316"},{"path": "dietpi/dietpi-update", "range": "1-513"},{"path": "dietpi/func/dietpi-globals", "range": "1-999"},{"path": "dietpi/preboot", "range": "1-29"},{"path": "rootfs/etc/systemd/system/dietpi-preboot.service", "range": "1-13"},{"path": "rootfs/etc/systemd/system/dietpi-postboot.service", "range": "1-17"}]} />
+
+## Real-World System Behavior and Use Cases
+
+In practical terms, DietPi’s architecture empowers users to transform a bare Debian installation into a fully configured, optimized device tailored to their needs. Upon power-up, the system swiftly identifies hardware specifics such as CPU model and memory size, adjusting CPU governors and kernel parameters accordingly. This early optimization improves system responsiveness and power efficiency.
+
+Users engage primarily with `dietpi-software`, which offers a curated catalog of software packages grouped into categories like desktop environments, media servers, backup tools, and many more. When installing an application, dependencies are automatically resolved, relevant services are configured, and system tweaks applied, lowering the barrier to deploying complex software stacks.
+
+For example, when installing a media server that requires a web server and database, `dietpi-software` prompts users to pick among Apache, Nginx, or Lighttpd, or selects based on existing setups. Subsequent configuration ensures all components interoperate correctly. Likewise, system updates through `dietpi-update` maintain DietPi scripts and modules in sync with upstream improvements, applying pre-patches and incremental fixes to keep the environment stable and secure.
+
+Thanks to its modular service control via `dietpi-services`, users retain fine control over running processes priority and resource allocation, essential for low-powered hardware optimizing real-time workloads.
+
+DietPi’s automation scripts also offer advanced users opportunities for custom automation, enabling unattended installs, backup restoration, network configuration, and more—streamlining deployment in headless or embedded scenarios.
+
+## Ready to Begin and Learn More
+
+Setting up DietPi begins with basic preparation of Debian-based hardware and invoking the initial setup facilitated by scripts integrated into the boot process. The modular scripts and services described here introduce a framework that is easy to extend yet robust enough for diverse applications.
+
+To start your journey:
+
+- Use the [Getting Started](https://dietpi.com/docs/getting_started/introduction_prerequisites/about_dietpi_and_value/) guides to prepare your device and perform the initial setup.
+- Explore [Installing and Managing Software](https://dietpi.com/docs/guides/core-workflows/install-software/) with `dietpi-software` to make the most of DietPi’s curated software catalog.
+- Refer to [Keeping DietPi Up-to-Date](https://dietpi.com/docs/guides/core-workflows/update-dietpi/) to maintain the latest features and fixes.
+
+This overview is a foundation to appreciate how DietPi weaves powerful automation and configuration over Debian’s trusted base, enabling you to focus on your projects instead of system complexity.
