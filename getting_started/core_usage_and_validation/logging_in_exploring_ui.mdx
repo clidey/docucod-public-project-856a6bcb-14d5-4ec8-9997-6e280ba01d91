@@ -1,0 +1,115 @@
+---
+title: "Logging In and Using DietPi Menus"
+description: "Instructions for the first user login, accessing the lightweight whiptail-based menus, and basic interactions—serving as an introduction to the DietPi user interface and flow."
+---
+
+## Getting Started with Logging In and Using DietPi Menus
+
+Upon powering on your DietPi system, the first interaction you'll have is logging in and navigating the streamlined, lightweight user interface. DietPi’s menus are built using whiptail, a minimal dialog utility that runs in a command line interface but delivers user-friendly, interactive menus tailored to optimize your setup and configuration experience.
+
+This page guides you through the initial login process, accessing the core DietPi menus, and performing basic interactions to familiarize yourself with the system’s flow and options.
+
+## Initial Login Experience and First Run Setup
+
+When you first boot DietPi, you will be prompted at the command line to log in. The default credentials are username `root` and password `dietpi`, unless you have customized these during setup or image configuration. 
+
+DietPi automatically runs a first run setup process after the initial login, handling updates and essential software installations. If an automated first run setup was configured, this may happen without prompting; otherwise, you will be interactively guided in the terminal.
+
+After successful login and setup, the system displays a concise banner providing essential device information such as uptime, device model, IP addresses, and update status. This banner is dynamic and can include other details or custom commands as configured. 
+
+The login script manages this flow and invokes auto start processes where selected—such as graphical environments or media-related applications—without needing manual intervention.
+
+<Tip>
+The first run setup ensures your system receives the latest patches and installs the software optimally for your device. If any errors occur, the system prompts you to retry or take control to troubleshoot.
+</Tip>
+<Source url="https://github.com/MichaIng/DietPi/blob/main/boot/dietpi-login" branch="main" paths={[{"path": "boot/dietpi-login", "range": "15-151"}]} />
+
+## Navigating DietPi’s Whiptail-Based Menus
+
+DietPi’s user interface centers around whiptail menus, providing a collection of simple yet powerful interactive menus that cover software installation, system configuration, updates, backups, and maintenance.
+
+Immediately after login (and any first run tasks), you can open the main launcher menu by running:
+
+```bash
+ dietpi-launcher
+```
+
+This menu consolidates a broad range of DietPi tools into one place, offering easy access to install software, configure system settings, manage drives, control services, apply updates, and more.
+
+Menus are navigated primarily via keyboard: use the arrow keys to select options, Enter to confirm, and Escape or Cancel buttons to go back or exit menus. Most menus feature clear headers and concise descriptions to guide your choices.
+
+### Common Menu Concepts
+
+- **Checklists and Yes/No dialogs:** For example, software installation or toggling features uses checklists where you mark selections with the spacebar.
+- **Input boxes:** Prompt for user input, such as custom domain names or passwords.
+- **Notifications:** Feedback messages appear after actions are completed or failed.
+
+<Tip>
+You can return to the menu at any time by exiting an active program—most DietPi menus prompt to press Enter or Return to resume.
+</Tip>
+
+<Source url="https://github.com/MichaIng/DietPi/blob/main/boot/dietpi-launcher" branch="main" paths={[{"path": "boot/dietpi-launcher", "range": "15-97"}]} />
+
+## Accessing Key Menus and Their Functions
+
+Once familiar with launching the DietPi menu system, you can explore the following primary menus:
+
+- **DietPi-Software:** Offers an optimized catalog of software to install and manage, configuring your SBC for various use cases like media servers, VPNs, or desktop environments.
+- **DietPi-Config:** Provides a feature-rich config tool to adjust system-level settings such as network configuration, locale, audio, hardware options, and more.
+- **DietPi-Update:** Checks for OS updates and allows you to apply them safely, including kernel, package, and DietPi script updates.
+- **DietPi-Backup / DietPi-Sync:** Tools for system backups, restoration, and directory synchronization.
+- **DietPi-Services:** Enables you to start, stop, and manage running services and processes on the system.
+
+Each menu uses intuitive prompts and lightweight dialogs to guide configuration changes while preventing system misconfigurations.
+
+## Basic Interaction Flow Example
+
+To get a feel for the interface, try this quick interaction:
+
+<Steps>
+<Step title="Open the main launcher menu">
+Run `dietpi-launcher` at the command prompt. Navigate using arrow keys to select options.
+</Step>
+<Step title="Browse installed software">
+Select 'DietPi-Software' to view preconfigured software options ready for installation or removal.
+</Step>
+<Step title="Configure system settings">
+Return to the main menu and select 'DietPi-Config' to adjust settings like network interfaces, display, or locale.
+</Step>
+<Step title="Check for updates">
+From the main menu, run 'DietPi-Update' to verify your system is up to date.
+</Step>
+<Step title="Exit menus">
+Press Cancel or Escape on any menu prompt to step back or exit the menu system gracefully.
+</Step>
+</Steps>
+
+## Verifying Successful Login and Menu Operation
+
+After login, you should see the DietPi banner displaying system information clearly. Running `dietpi-launcher` should open the interactive menu without errors.
+
+To verify, execute the following:
+
+```bash
+ dietpi-launcher
+```
+
+The launcher menu should appear, offering a list of programs and configuration options you can navigate.
+
+<Tip>
+If you encounter unsupported terminal errors or display issues when logged in via SSH, ensure your SSH client's terminal type is set to 'xterm' or 'xterm-256color'. DietPi applies automatic fixes for known incompatible terminals during login.
+</Tip>
+
+## Next Steps
+
+With a successful login and comfort navigating the whiptail menus, you’re ready to begin:
+
+- Installing your first software package via [Installing Your First Application](/getting_started/core_usage_and_validation/installing_first_software).
+- Configuring system and network options using [Configuring System Settings with dietpi-config](/guides/core-workflows/configure-system).
+- Staying up-to-date with [Keeping DietPi Up-to-Date](/guides/core-workflows/update-dietpi).
+
+For troubleshooting login, SSH, or menu issues, see [Troubleshooting Boot and Network Problems](/getting_started/troubleshooting_faq/boot_network_issues).
+
+With each step, DietPi’s design ensures you spend less time on system management and more on your projects.
+
+<Source url="https://github.com/MichaIng/DietPi" branch="main" paths={[{"path":"boot/dietpi-login","range":"15-150"},{"path":"boot/dietpi-launcher","range":"15-97"}]} />
