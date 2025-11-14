@@ -1,0 +1,76 @@
+---
+title: "Key Features at a Glance"
+description: "Fast facts and highlights about DietPi’s flagship features: automated software installation via dietpi-software, system optimization utilities, unattended updates, backup and restore, and service prioritization. Each feature links to the underlying script or tool."
+---
+
+## DietPi Key Features at a Glance
+
+DietPi offers a rich set of flagship features designed to maximize your single-board computer’s efficiency while simplifying both initial setup and ongoing management. Whether you want to install optimized software seamlessly, automate system updates, prioritize critical services, or safeguard your data with backups, DietPi equips you with powerful tools that reduce complexity and enhance reliability. This page highlights these core capabilities, giving you quick insight into how DietPi helps you achieve a robust and hassle-free experience.
+
+## Flagship Tools Simplifying Your Workflow
+
+At the heart of DietPi’s productivity lies **dietpi-software**, an intuitive yet potent software installer that automates the installation and configuration of ready-to-run applications optimized for your hardware. This tool manages dependencies, applies device-specific tweaks, and pre-configures services, so you spend less time troubleshooting and more time working with your chosen software.
+
+Complementing this is **dietpi-config**, a feature-rich configuration utility that centralizes essential system settings. It empowers you to adjust network options, hardware features, and performance settings effortlessly through clear menus, addressing common setup needs without diving into complex file edits.
+
+Harnessing the power of automation, **dietpi-update** ensures your system stays current by regularly checking for updates and applying them with minimal user intervention. Its layered update process smartly handles core system scripts and incremental patches, enabling a smooth upgrade path that keeps your environment secure and optimized.
+
+Protect your efforts with **dietpi-backup**, a comprehensive backup and restoration system tailored for the DietPi environment. It reliably safeguards your entire Linux filesystem, supports rotation and space checks, and helps you recover swiftly from failures or misconfigurations.
+
+Finally, **dietpi-services** offers fine-grained control to prioritize system services and processes. By managing CPU affinity, scheduling policies, and IO priorities, it enables you to optimize service behavior according to your workload priorities, improving system responsiveness and stability.
+
+## Features in Action: Real-World Benefits
+
+Imagine setting up a media server: with DietPi, you execute a few straightforward commands in `dietpi-software`, and the system automatically installs your chosen media software, configures dependencies like web servers and databases, and optimizes performance settings tailored to your hardware. You avoid manual steps that often result in errors or suboptimal configurations.
+
+When your software ecosystem grows, **dietpi-services** allows you to allocate higher CPU and IO priority to critical services such as media streaming or backup daemons, preventing bottlenecks and ensuring smooth operation, even under load.
+
+Automated updating via **dietpi-update** provides confidence that your system and software stay up to date without you needing to monitor daily. If issues arise, **dietpi-backup** has you covered, enabling quick restores to the previous known good state, minimizing downtime.
+
+For example, when installing WireGuard VPN server software, this suite handles the full lifecycle—from installing dependencies and kernel modules, to generating keys and configuring service files, right up to enabling system-wide IP forwarding—all through a guided and automated process that shields you from underlying complexities.
+
+```bash
+# Start interactive software installation menu
+dietpi-software
+
+# Manage running system services and set process priorities
+dietpi-services
+
+# Update DietPi automatically or interactively
+dietpi-update
+
+# Backup entire system before making changes
+dietpi-backup
+
+# Configure system-wide settings
+dietpi-config
+```
+
+<Source url="https://github.com/MichaIng/DietPi" branch="main" paths={[{"path": "dietpi/dietpi-software", "range": "1-8000"},{"path": "dietpi/dietpi-services", "range": "1-1500"},{"path": "dietpi/dietpi-update", "range": "1-1500"},{"path": "dietpi/dietpi-backup", "range": "1-1300"},{"path": "dietpi/dietpi-config", "range": "1-15"}]} />
+
+## Seamless Integration and Optimization
+
+DietPi’s tools are not just standalone utilities; they work together harmoniously to tailor your system to your needs. During initial setup, automation scripts read from user configuration files to set up networking, locale, and passwords, preparing an environment that matches your preferences from the first boot.
+
+Software installations consider your hardware model and architecture, skipping incompatible software while optimizing settings like GPU memory splits or swap file location based on available resources. Through intelligent dependency management, selecting a web server or desktop environment triggers the installation of all required components, eliminating guesswork.
+
+Software post-install actions include creating desktop shortcuts, setting directory permissions properly, and enabling systemd services with appropriate start conditions. The system employs safety checks such as verifying available disk space and network connectivity before launching large installs or upgrades, preventing mid-process failures.
+
+Further, DietPi provides options to automate fully unattended installations by configuring `dietpi.txt`, allowing large-scale deployments or remote setups without manual intervention.
+
+## What to Expect & Where to Go Next
+
+Getting started with these key features is straightforward. After booting into a freshly installed DietPi system, you can explore `dietpi-software` to install optimized applications suited for your goals. Use `dietpi-config` to fine-tune system settings like keyboard layout, network preferences, or enabling/disabling hardware modules.
+
+Regular system maintenance is simplified with `dietpi-update` for applying patches and upgrades safely, and `dietpi-backup` to keep a reliable copy of your system for restoration. For advanced users, `dietpi-services` unlocks process control capabilities to fine-tune system performance.
+
+Detailed setup guides and user manuals for each of these tools are available in the [Getting Started](https://dietpi.com/docs/getting_started/introduction_prerequisites/about_dietpi_and_value) and [Guides](https://dietpi.com/docs/guides/core-workflows/install-software) sections.
+
+Explore the following to deepen your understanding and use of these features:
+
+- [Installing and Managing Software with dietpi-software](/guides/core-workflows/install-software)
+- [System Maintenance with dietpi-backup and dietpi-cleaner](/guides/system-maintenance/backup-restore)
+- [Automation via dietpi.txt and Autostart Scripts](/guides/system-maintenance/automation-and-autostart-scripts)
+- [Fine-tuning Services and Performance](/guides/advanced-guides/service-management)
+
+Together, these capabilities make DietPi a powerful yet accessible operating system designed to put you in control while freeing you from tedious system administration tasks.
