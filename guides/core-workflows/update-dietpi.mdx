@@ -1,0 +1,87 @@
+---
+title: "Keeping DietPi Up-to-Date"
+description: "Step-by-step instructions for using dietpi-update to check for, download, and apply the latest DietPi upgrades, including patch management and APT package updates. Learn best practices for safe updating and troubleshooting common issues."
+---
+
+# Keeping DietPi Up-to-Date
+
+Keeping your DietPi system up-to-date is essential for security, stability, and access to the latest features and patches. The `dietpi-update` utility streamlines the update process by automating checks for system and software updates, handling incremental patches, managing APT package upgrades, and applying post-update migrations in a safe and controlled manner.
+
+This guide focuses specifically on using `dietpi-update` to keep your DietPi system current, covering its workflow, best practices for safe updating, and how to troubleshoot common issues encountered during the update process.
+
+## Understanding the Update Workflow
+
+`dietpi-update` performs a series of carefully ordered steps to update your DietPi system. It first verifies network connectivity and synchronizes the system clock to ensure accurate time-dependent operations. The tool then queries the configured GitHub repository to check for the latest DietPi version.
+
+If a new version is available, `dietpi-update` applies any required pre-patches—these are critical changes that must happen before system package upgrades or code changes. It then upgrades all APT packages, including essential system components and software dependencies. After upgrading packages, the new DietPi source code is downloaded and installed to system locations.
+
+Incremental patches are applied next. These patches clean up obsolete files, migrate configuration formats, adjust system settings, and handle hardware-specific fixes. Any necessary software reinstalls—triggered by the patches or version upgrades—are performed to assure all components work harmoniously.
+
+Finally, `dietpi-update` handles live patches for minor bug fixes that don't require a full version upgrade, cleans up obsolete packages, reloads systemd units to apply service file changes, and prompts for reboot if kernel module updates necessitate it.
+
+Throughout this process, the tool provides clear informative messages and local logging at `/var/tmp/dietpi/logs/dietpi-update.log` to help track progress and diagnose issues.
+
+<Tip>
+Always ensure your system has a stable network connection before running `dietpi-update`, as the utility depends heavily on fetching files from online repositories.
+</Tip>
+
+## Running `dietpi-update` in Practice
+
+There are multiple ways to run `dietpi-update`, based on your preferred interaction mode:
+
+- Simply running `dietpi-update` without parameters opens an interactive menu to check for updates and prompt whether to apply them.
+- Running `dietpi-update 1` initiates a noninteractive update, automatically applying all required upgrades without prompts.
+- The `dietpi-update -1` command forces reapplication of the last update, useful if a prior update did not complete properly.
+- Passing `dietpi-update 2` runs version and APT update checks and stores the update status for display by DietPi banners without making changes.
+
+The tool intelligently manages user prompts, such as reminding to backup your system before proceeding, and displays changelogs to inform about recent fixes and improvements.
+
+When an update requires rebooting—such as after kernel upgrades—`dietpi-update` will notify you and offer to reboot immediately to ensure system integrity.
+
+<Tip>
+For unattended or scripted update scenarios, use `dietpi-update 1` to avoid interaction, and schedule it via cron or automation tools for regular maintenance.
+</Tip>
+
+## Best Practices for Safe Updates
+
+Before applying any updates, it's recommended to create a backup using the [DietPi-Backup](/guides/system-maintenance/backup-restore) utility or equivalent. This safeguards your data and system state against unexpected interruptions.
+
+Updates that modify kernel or firmware components often require rebooting. Pay close attention to the update prompts and reboot when requested to ensure kernel modules and drivers load correctly.
+
+If you customize system files outside of DietPi-managed configurations, be cautious. Updates may overwrite changes or cause conflicts. It's advisable to document custom modifications and back up affected files.
+
+For users migrating between major Debian versions, such as Bullseye to Bookworm or Bookworm to Trixie, special upgrade scripts exist (`dietpi-bookworm-upgrade`, `dietpi-trixie-upgrade`) to guide through this more complex transition safely.
+
+<Tip>
+Monitor `/var/tmp/dietpi/logs/dietpi-update.log` after updates to identify any errors or warnings that require attention.
+</Tip>
+
+## Troubleshooting Common Issues
+
+If `dietpi-update` fails to complete or encounters errors, consider the following steps:
+
+- Verify your network connectivity and DNS resolution.
+- Confirm sufficient free space on your root filesystem (typically at least 100 MB free is recommended).
+- Check if your system requires a reboot from a previous kernel upgrade by running `uname -r` and inspecting `/lib/modules/` for matching modules.
+- Review the update log for specific error messages.
+- If the update is stuck or corrupted, use the `dietpi-update -1` command to reapply the last update.
+- For complex migration issues involving Debian releases, use the dedicated upgrade scripts and follow their prompts carefully.
+
+Finally, access the DietPi [Forum](https://dietpi.com/forum/) or [GitHub Issues](https://github.com/MichaIng/DietPi/issues) for community support when problems persist.
+
+<Warning>
+Avoid interrupting the update process once started, as this can leave the system in an unstable state requiring manual intervention.
+</Warning>
+
+## Related Utilities and Next Steps
+
+The update process works hand-in-hand with several other DietPi tools:
+
+- **[dietpi-software](/guides/core-workflows/install-software):** Manages optimized software installation and configuration.
+- **[dietpi-services](/guides/advanced-guides/service-management):** Handles service control during and after software changes.
+- **[dietpi-backup](/guides/system-maintenance/backup-restore):** For creating and restoring system backups.
+- **[dietpi-config](/guides/core-workflows/configure-system):** For hardware and network configuration that might affect update outcomes.
+
+Users should review these guides to maintain a well-managed and stable DietPi system.
+
+<Source url="https://github.com/MichaIng/DietPi" paths={[{"path": "boot/dietpi-update", "range": "1-430"},{"path": ".update/patches", "range": "1-553"}]} />
